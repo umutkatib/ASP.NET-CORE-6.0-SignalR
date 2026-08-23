@@ -36,7 +36,7 @@ namespace SignalRApi.Controllers
 			});
 			return Ok();
 		}
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public IActionResult AboutDelete(int id)
 		{
 			var value = _aboutService.TGetByID(id);
@@ -55,7 +55,7 @@ namespace SignalRApi.Controllers
 			});
 			return Ok();
 		}
-		[HttpGet("AboutGet")]
+		[HttpGet("{id}")]
 		public IActionResult AboutGet(int id)
 		{
 			var value = _aboutService.TGetByID(id);
