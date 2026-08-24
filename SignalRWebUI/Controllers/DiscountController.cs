@@ -50,10 +50,10 @@ namespace SignalRWebUI.Controllers
 		{
 			var client = _httpClientFactory.CreateClient();
 			var responseMessage = await client.DeleteAsync($"https://localhost:7171/api/Discounts/{id}");
-			if(responseMessage.IsSuccessStatusCode)
+			if (responseMessage.IsSuccessStatusCode)
 			{
 				return RedirectToAction("Index");
-			
+			}
 			return View();
 		}
 
