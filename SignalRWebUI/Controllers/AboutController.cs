@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.AboutDtos;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SignalRWebUI.Controllers
 {
