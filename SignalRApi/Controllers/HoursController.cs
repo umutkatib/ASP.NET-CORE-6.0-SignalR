@@ -36,7 +36,7 @@ namespace SignalRApi.Controllers
 			});
 			return Ok();
 		}
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public IActionResult HourDelete(int id)
 		{
 			var value = _hourService.TGetByID(id);
@@ -55,7 +55,7 @@ namespace SignalRApi.Controllers
 			});
 			return Ok();
 		}
-		[HttpGet("HourGet")]
+		[HttpGet("{id}")]
 		public IActionResult HourGet(int id)
 		{
 			var value = _hourService.TGetByID(id);

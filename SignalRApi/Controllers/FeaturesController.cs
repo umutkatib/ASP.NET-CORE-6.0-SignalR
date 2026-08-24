@@ -39,7 +39,7 @@ namespace SignalRApi.Controllers
 			});
 			return Ok();
 		}
-		[HttpDelete]
+		[HttpDelete("{id}")]
 		public IActionResult FeatureDelete(int id)
 		{
 			var value = _featureService.TGetByID(id);
@@ -61,7 +61,7 @@ namespace SignalRApi.Controllers
 			});
 			return Ok();
 		}
-		[HttpGet("FeatureGet")]
+		[HttpGet("{id}")]
 		public IActionResult FeatureGet(int id)
 		{
 			var value = _featureService.TGetByID(id);
