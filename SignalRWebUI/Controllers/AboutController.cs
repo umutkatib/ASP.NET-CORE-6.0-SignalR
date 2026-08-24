@@ -41,11 +41,15 @@ namespace SignalRWebUI.Controllers
 			var jsonData = JsonConvert.SerializeObject(createAboutDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 			var responseMessage = await client.PostAsync("https://localhost:7171/api/Abouts", stringContent);
+
 			if (responseMessage.IsSuccessStatusCode)
 			{
+				TempData["SuccessMessage"] = "Hakkimizda Alani Basarili Bir Sekilde Eklendi!";
 				return RedirectToAction("Index");
 			}
-			return View();
+
+			TempData["ErrorMessage"] = "Hakkimizda Alani Eklenemedi!";
+			return View(createAboutDto);
 		}
 
 		public async Task<IActionResult> AboutDelete(int id)
@@ -54,6 +58,7 @@ namespace SignalRWebUI.Controllers
 			var responseMessage = await client.DeleteAsync($"https://localhost:7171/api/Abouts/{id}");
 			if (responseMessage.IsSuccessStatusCode)
 			{
+				TempData["SuccessMessage"] = "Hakkimizda Alani Basarili Bir Sekilde Silindi!";
 				return RedirectToAction("Index");
 			}
 			return View();
@@ -81,8 +86,10 @@ namespace SignalRWebUI.Controllers
 			var responseMessage = await client.PutAsync("https://localhost:7171/api/Abouts", stringContent);
 			if (responseMessage.IsSuccessStatusCode)
 			{
+				TempData["SuccessMessage"] = "Hakkimizda Alani Basarili Bir Sekilde Guncellendi!";
 				return RedirectToAction("Index");
 			}
+			TempData["ErrorMessage"] = "Hakkimizda Alani Guncellenemedi!";
 			return View();
 		}
 	}
