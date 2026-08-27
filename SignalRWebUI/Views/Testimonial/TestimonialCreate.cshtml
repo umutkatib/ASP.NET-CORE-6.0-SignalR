@@ -1,0 +1,50 @@
+﻿@model CreateTestimonialDto
+
+@{
+    ViewData["Title"] = "TestimonialCreate";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Referans-Yorum</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Referans-Yorum Ekleme</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="TestimonialName">Müşteri Adı</label>
+								<input asp-for="TestimonialName" type="text" class="form-control" id="TestimonialName" placeholder="Müşteri Adı Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="TestimonialTitle">Müşteri Ünvan</label>
+								<input asp-for="TestimonialTitle" type="text" class="form-control" id="TestimonialTitle" placeholder="Müşteri Ünvanı Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="TestimonialImageUrl">Resim Yolu</label>
+								<input asp-for="TestimonialImageUrl" type="text" class="form-control" id="TestimonialImageUrl" placeholder="Müşteri Resim Yolu Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="TestimonialComment">Yorum</label>
+								<input asp-for="TestimonialComment" type="text" class="form-control" id="TestimonialComment" placeholder="Müşteri Yorumu Giriniz...">
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-success">Referans-Yorumu Ekle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
