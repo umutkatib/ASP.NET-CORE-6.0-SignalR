@@ -218,6 +218,65 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.ToTable("Hours");
                 });
 
+            modelBuilder.Entity("SignalR.EntityLayer.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"), 1L, 1);
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderTableNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OrderTotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderID");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("SignalR.EntityLayer.Entities.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderDetailID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailID"), 1L, 1);
+
+                    b.Property<int>("OrderDetailCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OrderDetailTotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OrderDetailUnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderDetailID");
+
+                    b.HasIndex("OrderID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("SignalR.EntityLayer.Entities.Product", b =>
                 {
                     b.Property<int>("ProductID")
@@ -311,6 +370,25 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.ToTable("Testimonials");
                 });
 
+            modelBuilder.Entity("SignalR.EntityLayer.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("SignalR.EntityLayer.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SignalR.EntityLayer.Entities.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("SignalR.EntityLayer.Entities.Product", b =>
                 {
                     b.HasOne("SignalR.EntityLayer.Entities.Category", "Category")
@@ -325,6 +403,16 @@ namespace SignalR.DataAccessLayer.Migrations
             modelBuilder.Entity("SignalR.EntityLayer.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("SignalR.EntityLayer.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("SignalR.EntityLayer.Entities.Product", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

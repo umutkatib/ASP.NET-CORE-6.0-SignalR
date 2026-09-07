@@ -14,9 +14,57 @@ namespace SignalR.DataAccessLayer.EntityFramework
 
 		public List<Product> GetProductsWithCategories()
 		{
-			var context = new SignalRContext();
+			using var context = new SignalRContext();
 			var values = context.Products.Include(x => x.Category).ToList();
 			return values;
 		}
+
+		public int ProductCount()
+		{
+			using var context = new SignalRContext();
+			return context.Products.Count();
+		}
+
+		public int ProductCountByCategoryNameBurger()
+		{
+			using var context = new SignalRContext();
+			var values = context.Products.Where(x => x.CategoryID == 
+												(context.Categories.Where(y => y.CategoryName == "Burger" )
+												.Select(z => z.CategoryID)
+												.FirstOrDefault())).Count();
+			return values;
+		}
+
+		public int ProductCountByCategoryNameDrink()
+		{
+			using var context = new SignalRContext();
+			var values = context.Products.Where(x => x.CategoryID ==
+												(context.Categories.Where(y => y.CategoryName == "İçecek")
+												.Select(z => z.CategoryID)
+												.FirstOrDefault())).Count();
+			return values;
+		}
+
+		public string ProductNameByMaxPrice()
+		{
+			using var context = new SignalRContext();
+			var value = context.Products.Where(x => x.ProductPrice == (context.Products.Max(y => y.ProductPrice))).Select(z => z.ProductName).FirstOrDefault();
+			return value;
+		}
+
+		public string ProductNameByMinPrice()
+		{
+			using var context = new SignalRContext();
+			var value = context.Products.Where(x => x.ProductPrice == (context.Products.Min(y => y.ProductPrice))).Select(z => z.ProductName).FirstOrDefault();
+			return value;
+		}
+
+		public decimal ProductPriceAvg()
+		{
+			using var context = new SignalRContext();
+			var value = context.Products.Average(x => x.ProductPrice);
+			return value;
+		}
 	}
 }
+
