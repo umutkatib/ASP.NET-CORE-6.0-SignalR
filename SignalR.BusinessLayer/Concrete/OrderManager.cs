@@ -33,6 +33,21 @@ namespace SignalR.BusinessLayer.Concrete
 			return _orderDal.GetListAll();
 		}
 
+		public decimal TLastOrderPrice()
+		{
+			return _orderDal.LastOrderPrice();
+		}
+
+		public int TTotalActiveOrderCount()
+		{
+			return _orderDal.TotalActiveOrderCount();
+		}
+
+		public int TTotalOrderCount()
+		{
+			return _orderDal.TotalOrderCount();
+		}
+
 		public void TUpdate(Order entity)
 		{
 			_orderDal.Update(entity);
