@@ -18,6 +18,18 @@ namespace SignalR.DataAccessLayer.EntityFramework
 			return value;
 		}
 
+		public decimal TodayTotalPrice()
+		{
+			using var context = new SignalRContext();
+			var today = DateTime.Today;          // midnight today, computed in C#
+			var tomorrow = today.AddDays(1);
+
+			var value = context.Orders
+				.Where(x => x.OrderDate >= today && x.OrderDate < tomorrow)
+				.Sum(y => y.OrderTotalPrice); 
+			return value;
+		}
+
 		public int TotalActiveOrderCount()
 		{
 			using var context = new SignalRContext();
