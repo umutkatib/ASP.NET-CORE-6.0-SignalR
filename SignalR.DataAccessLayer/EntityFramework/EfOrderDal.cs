@@ -21,7 +21,7 @@ namespace SignalR.DataAccessLayer.EntityFramework
 		public decimal TodayTotalPrice()
 		{
 			using var context = new SignalRContext();
-			var today = DateTime.Today;          // midnight today, computed in C#
+			var today = DateTime.Today;         
 			var tomorrow = today.AddDays(1);
 
 			var value = context.Orders
