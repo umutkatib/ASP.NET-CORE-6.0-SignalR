@@ -118,7 +118,23 @@ namespace SignalR.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContactOpenDays")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactOpenDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactOpenHours")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ContactPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -191,31 +207,6 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.HasKey("FeatureID");
 
                     b.ToTable("Features");
-                });
-
-            modelBuilder.Entity("SignalR.EntityLayer.Entities.Hour", b =>
-                {
-                    b.Property<int>("HourID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HourID"), 1L, 1);
-
-                    b.Property<string>("HourDay")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HourDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HourTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HourID");
-
-                    b.ToTable("Hours");
                 });
 
             modelBuilder.Entity("SignalR.EntityLayer.Entities.MenuTable", b =>
@@ -347,6 +338,43 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.HasIndex("CategoryID");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SignalR.EntityLayer.Entities.Slider", b =>
+                {
+                    b.Property<int>("SliderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SliderID"), 1L, 1);
+
+                    b.Property<string>("SliderDescription1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SliderDescription2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SliderDescription3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SliderTitle1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SliderTitle2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SliderTitle3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SliderID");
+
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("SignalR.EntityLayer.Entities.SocialMedia", b =>

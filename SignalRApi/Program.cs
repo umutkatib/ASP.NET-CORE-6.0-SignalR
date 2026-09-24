@@ -42,9 +42,6 @@ builder.Services.AddScoped<IDiscountDal, EfDiscountDal>();
 builder.Services.AddScoped<IFeatureService, FeatureManager>();
 builder.Services.AddScoped<IFeatureDal, EfFeatureDal>();
 
-builder.Services.AddScoped<IHourService, HourManager>();
-builder.Services.AddScoped<IHourDal, EfHourDal>();
-
 builder.Services.AddScoped<IProductService, ProductManager>();
 builder.Services.AddScoped<IProductDal, EfProductDal>();
 
@@ -65,6 +62,9 @@ builder.Services.AddScoped<IMoneyCaseDal, EfMoneyCaseDal>();
 
 builder.Services.AddScoped<IMenuTableService, MenuTableManager>();
 builder.Services.AddScoped<IMenuTableDal, EfMenuTableDal>();
+
+builder.Services.AddScoped<ISliderService, SliderManager>();
+builder.Services.AddScoped<ISliderDal, EfSliderDal>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
