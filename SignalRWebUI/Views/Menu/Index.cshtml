@@ -122,11 +122,12 @@
     @await Component.InvokeAsync("_UILayoutScriptPartialComponent")
 
     <script>
-        function showproductid(p) {
+         function showproductid(p) {
             var id = p;
             $.ajax({
                 type:"post",
                 data: {item:id},
+                url:"/Menu/BasketAdd/" +id,
                 contentType:"json",
                 success:function(){
                             Swal.fire({
@@ -137,6 +138,23 @@
                 }
             });
         }
+
+
+        // function showproductid(p) {
+        //     var id = p;
+        //     $.ajax({
+        //         type:"post",
+        //         data: {item:id},
+        //         contentType:"json",
+        //         success:function(){
+        //                     Swal.fire({
+        //   title: "Ürün Seçildi!",
+        //   text: "Ürün ID:" + id,
+        //   icon: "success"
+        // });
+        //         }
+        //     });
+        // }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

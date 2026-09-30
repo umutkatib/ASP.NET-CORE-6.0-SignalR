@@ -19,4 +19,8 @@
     <Folder Include="wwwroot\feane-1.0.0\fonts\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SignalR.EntityLayer\SignalR.EntityLayer.csproj" />
+  </ItemGroup>
+
 </Project>
