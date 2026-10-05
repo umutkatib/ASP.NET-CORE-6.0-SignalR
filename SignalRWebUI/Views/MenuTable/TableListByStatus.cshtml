@@ -1,0 +1,70 @@
+﻿@model List<ResultMenuTableDto>
+
+@{
+    ViewData["Title"] = "TableListByStatus";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+<div class="content">
+    <div class="container-fluid">
+
+        <script type="text/javascript">
+            $(document).ready(() => {
+                var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7171/SignalRHub").build();
+
+                $("#connstatus").text(connection.state);
+
+                connection.start().then(() => {
+                    setInterval(() => {
+                     connection.invoke("GetMenuTableStatus");
+                    }, 1000)
+                }).catch((err) => {console.log(err)});
+
+                connection.on("ReceiveMenuTableStatus", (value) => {
+                    console.log(value)
+                    let tablehtml = "";
+                $.each(value, (index, item) =>
+                {
+                    tablehtml +=
+                    `
+                     <div class="col-md-3">
+                        <div class="card card-stats card-${item.menuTableStatus == false ? "danger" : "success"}">
+                            <div class="card-body ">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="icon-big text-center">
+                                            <i class="la la-certificate"></i>
+                                        </div>
+                                </div>
+                                <div class="col-7 d-flex align-items-center">
+                                    <div class="numbers">
+                                        <p class="card-category">${item.menuTableStatus == false ? "Masa Boş" : "Masa Dolu"}</p>
+                                        <h4 class="card-title">${item.menuTableName}</h4>
+                                    </div>
+                                </div>
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                        `
+                    });
+                    $("#statusList").html(tablehtml);
+                });
+            });
+        </script>
+
+
+        <h4 class="page-title">Anlık Masa Durumları</h4>
+        <div class="row">
+            <div class="row" id="statusList">
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,15 +25,14 @@ namespace SignalRApi.Controllers
 		[HttpPost]
 		public IActionResult NotificationCreate(CreateNotificationDto createNotificationDto)
 		{
-			Notification notification = new Notification()
+			_notificationService.TAdd(new Notification()
 			{
 				NotificationType = createNotificationDto.NotificationType,
 				NotificationDescription = createNotificationDto.NotificationDescription,
 				NotificationIcon = createNotificationDto.NotificationIcon,
 				NotificationStatus = false,
 				NotificationDate = Convert.ToDateTime(DateTime.Now.ToShortDateString())
-			};
-			_notificationService.TAdd(notification);
+			});
 			return Ok();
 		}
 
