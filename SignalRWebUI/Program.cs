@@ -1,8 +1,31 @@
+using SignalR.DataAccessLayer.Concrete;
+using SignalR.EntityLayer.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
+builder.Services.AddDbContext<SignalRContext>();
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+	options.Password.RequiredLength = 5;
+	options.Password.RequireDigit = false;
+	options.Password.RequireLowercase = false;
+	options.Password.RequireUppercase = false;
+	options.Password.RequireNonAlphanumeric = false;
+
+	options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<SignalRContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = "/Login/Index";
+	options.AccessDeniedPath = "/Login/Index";
+	options.ExpireTimeSpan = TimeSpan.FromHours(4);
+	options.SlidingExpiration = true;
+
+});
 
 var app = builder.Build();
 
@@ -19,6 +42,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
