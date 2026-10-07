@@ -1,56 +1,148 @@
 ﻿@model CreateProductDto
 
 @{
-    ViewData["Title"] = "ProductCreate";
+    ViewData["Title"] = "Yeni Ürün";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
 <div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Ürün</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Yeni Ürün Ekleme</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="ProductName">Ürün Adı</label>
-								<input asp-for="ProductName" type="text" class="form-control" id="ProductName" placeholder="Ürün Adı Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="ProductPrice">Ürün Fiyatı</label>
-								<input asp-for="ProductPrice" type="text" class="form-control" id="ProductPrice" placeholder="Ürün Fiyatı Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="ProductImageURl">Ürün Görseli</label>
-								<input asp-for="ProductImageURl" type="text" class="form-control" id="ProductImageURl" placeholder="Ürün Görseli Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="CategoryID">Ürün Kategorisi</label>
-								@Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.v, new {@class="form-control"})
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="ProductDescription">Ürün Açıklaması</label>
-								<input asp-for="ProductDescription" type="text" class="form-control" id="ProductDescription" placeholder="Ürün Açıklaması Giriniz...">
-							</div>
-						</div>
-						<div class="card-action">
-							<button class="btn btn-success">Ürünü Ekle</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">Ürün</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><a href="/Product/Index/">Ürünler</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Yeni Ürün</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="ProductCreate" asp-controller="Product" id="productForm" novalidate>
+                    <div class="card product-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-cube text-success mr-1"></i> Yeni Ürün Ekleme
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="form-group">
+                                <label asp-for="ProductName" class="font-weight-bold">Ürün Adı</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input asp-for="ProductName" class="form-control" maxlength="150"
+                                           placeholder="Ürün Adı Giriniz" autofocus />
+                                </div>
+                                <span asp-validation-for="ProductName" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProductPrice" class="font-weight-bold">Fiyat</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-turkish-lira"></i></span>
+                                    </div>
+                                    <input asp-for="ProductPrice" type="number" step="0.01" min="0" class="form-control"
+                                           placeholder="0,00" />
+                                </div>
+                                <span asp-validation-for="ProductPrice" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="CategoryID" class="font-weight-bold">Kategori</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-folder"></i></span>
+                                    </div>
+                                    <select asp-for="CategoryID" class="form-control"
+                                            asp-items="@(ViewBag.v as List<SelectListItem>)">
+                                        <option value="">Kategori Seçiniz</option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="CategoryID" class="text-danger small"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="ProductDescription" class="font-weight-bold">Açıklama</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-align-left"></i></span>
+                                    </div>
+                                    <textarea asp-for="ProductDescription" class="form-control" rows="3"
+                                              placeholder="Ürün açıklaması giriniz"></textarea>
+                                </div>
+                                <span asp-validation-for="ProductDescription" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ProductImageURl" class="font-weight-bold">Resim Yolu</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-image"></i></span>
+                                    </div>
+                                    <input asp-for="ProductImageURl" class="form-control" placeholder="https://... veya /images/urun.jpg" />
+                                </div>
+                                <span asp-validation-for="ProductImageURl" class="text-danger small"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="font-weight-bold d-block">Durum</label>
+                                <div class="custom-control custom-switch">
+                                    <input asp-for="ProductStatus" type="checkbox" class="custom-control-input" />
+                                    <label class="custom-control-label" asp-for="ProductStatus">Aktif</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/Product/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Ürünü Ekle
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .product-card {
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+
+            .product-card .form-control:focus {
+                border-color: #31ce36;
+                box-shadow: 0 0 0 .15rem rgba(49,206,54,.2);
+            }
+
+            .product-card .input-group-text {
+                background: #f8f9fa;
+            }
+    </style>
+    <script>
+        // Çift tıklamayla aynı kaydın iki kez eklenmesini engeller
+        $('#productForm').on('submit', function () {
+            if ($(this).valid()) {
+                $('#btnSubmit').prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm"></span> Kaydediliyor...');
+            }
+        });
+    </script>
+}

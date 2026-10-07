@@ -64,7 +64,7 @@ namespace SignalRApi.Controllers
 				ProductPrice = createProductDto.ProductPrice,
 				ProductDescription = createProductDto.ProductDescription,
 				ProductImageURl = createProductDto.ProductImageURl,
-				ProductStatus = true
+				ProductStatus = createProductDto.ProductStatus
 			});
 			return Ok();
 		}

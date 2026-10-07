@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SignalRWebUI.Dtos.BookingDtos;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +36,7 @@ namespace SignalRWebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> BookingCreate(CreateBookingDto createBookingDto)
 		{
+			createBookingDto.BookingDescription = "Rezervasyon Alındı";
 			var client = _httpClientFactory.CreateClient();
 			var jsonData = JsonConvert.SerializeObject(createBookingDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -79,6 +79,7 @@ namespace SignalRWebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> BookingUpdate(UpdateBookingDto updateBookingDto)
 		{
+			updateBookingDto.BookingDescription = "Rezervasyon Alındı";
 			var client = _httpClientFactory.CreateClient();
 			var jsonData = JsonConvert.SerializeObject(updateBookingDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -86,13 +87,26 @@ namespace SignalRWebUI.Controllers
 
 			if (responseMessage.IsSuccessStatusCode)
 			{
-				TempData["SuccessMessage"] = "Rezervasyon Kaydi Basarili Bir Sekilde Eklendi!";
+				TempData["SuccessMessage"] = "Rezervasyon Kaydi Basarili Bir Sekilde Güncellendi!";
 				return RedirectToAction("Index");
 			}
 
-			TempData["ErrorMessage"] = "Rezervasyon Kaydi Eklenemedi!";
+			TempData["ErrorMessage"] = "Rezervasyon Kaydi Güncellenemedi!";
 
 			return View();
+		}
+
+		public async Task<IActionResult> BookingStatusApproved(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/Bookings/BookingStatusApproved/{id}");
+			return RedirectToAction("Index");
+		}
+		public async Task<IActionResult> BookingStatusCancelled(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/Bookings/BookingStatusCancelled/{id}");
+			return RedirectToAction("Index");
 		}
 	}
 }

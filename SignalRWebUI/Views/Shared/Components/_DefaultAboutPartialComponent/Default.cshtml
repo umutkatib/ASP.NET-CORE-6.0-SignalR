@@ -3,7 +3,7 @@
 @foreach(var item in Model)
 {
     <section class="about_section layout_padding">
-        <div class="container  ">
+        <div class="container" id="aboutlink">
 
             <div class="row">
                 <div class="col-md-6 ">
@@ -21,7 +21,7 @@
                         <p>
                             @item.AboutDescription
                         </p>
-                        <a href="/AboutUI/Index/">
+                        <a href="#aboutlink">
                             Daha Fazla
                         </a>
                     </div>

@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.CategoryDtos;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SignalRWebUI.Controllers
 {

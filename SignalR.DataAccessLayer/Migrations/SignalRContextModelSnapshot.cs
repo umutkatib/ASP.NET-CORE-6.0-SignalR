@@ -299,6 +299,10 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("BookingDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("BookingMail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

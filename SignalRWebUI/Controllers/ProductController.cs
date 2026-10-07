@@ -49,7 +49,6 @@ namespace SignalRWebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ProductCreate(CreateProductDto createProductDto)
 		{
-			createProductDto.ProductStatus = true;
 			var client = _httpClientFactory.CreateClient();
 			var jsonData = JsonConvert.SerializeObject(createProductDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");

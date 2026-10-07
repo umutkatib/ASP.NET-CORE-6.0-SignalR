@@ -6,43 +6,158 @@
 }
 
 <div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Rezervasyon</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Yeni Rezervasyon Ekleme</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="BookingName">Ad Soyad</label>
-								<input asp-for="BookingName" type="text" class="form-control" id="BookingName" placeholder="Kategori Adı Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="BookingPhone">Telefon</label>
-								<input asp-for="BookingPhone" type="number" class="form-control" id="BookingPhone" placeholder="Telefon Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="BookingMail">Mail Adresi</label>
-								<input asp-for="BookingMail" type="email" class="form-control" id="BookingMail" placeholder="Mail Adresi Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="BookingPersonCount">Kişi Sayısı</label>
-								<input asp-for="BookingPersonCount" type="text" class="form-control" id="BookingPersonCount" placeholder="Kişi Sayısı Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="BookingDate">Rezervasyon Tarihi</label>
-								<input asp-for="BookingDate" type="date" class="form-control" id="BookingDate" placeholder="Tarih Seçiniz...">
-							</div>
-						</div>
-						<div class="card-action">
-							<button class="btn btn-success">Rezervasyon Oluştur</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">Rezervasyon</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><a href="/Booking/Index/">Rezervasyonlar</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Yeni Rezervasyon</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="BookingCreate" asp-controller="Booking" id="bookingForm" novalidate>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-folder-plus text-success mr-1"></i> Yeni Rezervasyon Ekleme
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Ad Soyad -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BookingName">Ad Soyad <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                            </div>
+                                            <input asp-for="BookingName" type="text" class="form-control" placeholder="Ad Soyad Giriniz...">
+                                        </div>
+                                        <span asp-validation-for="BookingName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Telefon -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BookingPhone">Telefon <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                            </div>
+                                            <input asp-for="BookingPhone" type="tel" inputmode="numeric" maxlength="11" class="form-control" placeholder="05XXXXXXXXX">
+                                        </div>
+                                        <span asp-validation-for="BookingPhone" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Mail -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BookingMail">Mail Adresi <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                            </div>
+                                            <input asp-for="BookingMail" type="email" class="form-control" placeholder="Mail Adresi Giriniz...">
+                                        </div>
+                                        <span asp-validation-for="BookingMail" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Kişi Sayısı (stepper) -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="BookingPersonCount">Kişi Sayısı <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button type="button" class="btn btn-black btn-border" onclick="changeCount(-1)">−</button>
+                                            </div>
+                                            <input asp-for="BookingPersonCount" type="number" min="1" max="50" class="form-control text-center" id="BookingPersonCount" value="2">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-black btn-border" onclick="changeCount(1)">+</button>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="BookingPersonCount" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Tarih -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label asp-for="BookingDate">Rezervasyon Tarihi <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                            <input asp-for="BookingDate" type="date" class="form-control" id="BookingDate"
+                                                   min="@DateTime.Today.ToString("yyyy-MM-dd")" placeholder="Tarih Seçiniz...">
+                                        </div>
+                                        <span asp-validation-for="BookingDate" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/Booking/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Rezervasyon Oluştur
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/tr.js"></script>
+
+    <script>
+        // Kişi sayısı +/- butonları
+        function changeCount(d) {
+            const i = document.getElementById('BookingPersonCount');
+            const max = parseInt(i.max) || 50;
+            i.value = Math.min(max, Math.max(1, (parseInt(i.value) || 1) + d));
+        }
+
+        // Türkçe takvim, geçmiş tarih engelli
+        flatpickr("#BookingDate", {
+            locale: "tr",
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "d F Y"
+        });
+
+        // Telefon: sadece rakam
+        document.getElementById('BookingPhone').addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Çift tıklamayı önle + geri bildirim ver
+        document.getElementById('bookingForm').addEventListener('submit', function () {
+            const form = $(this);
+            if (form.valid && !form.valid()) return;
+            form.find('button[type=submit]')
+                .prop('disabled', true)
+                .html('<i class="fa fa-spinner fa-spin"></i> Kaydediliyor...');
+        });
+    </script>
+}
