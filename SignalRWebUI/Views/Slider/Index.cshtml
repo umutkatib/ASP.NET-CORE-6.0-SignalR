@@ -1,9 +1,8 @@
-﻿@model List<ResultFeatureDto>
+﻿@model List<ResultSliderDto>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Index.cshtml";
-    int count = 0;
 }
 
 <div class="content">
@@ -14,7 +13,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div class="card-title mb-0">Öne Çıkanlar Listesi</div>
-                        <a href="/Feature/FeatureCreate/" class="btn btn-success btn-round">
+                        <a href="/Slider/SliderCreate/" class="btn btn-success btn-round">
                             <i class="la la-plus"></i> Yeni Öne Çıkan Ekle
                         </a>
                     </div>
@@ -26,7 +25,6 @@
                             <table class="table mt-3" id="featureTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
                                         <th scope="col">Başlık 1</th>
                                         <th scope="col">Başlık 2</th>
                                         <th scope="col">Başlık 3</th>
@@ -50,17 +48,15 @@
                                     {
                                         @foreach (var item in Model)
                                         {
-                                            count++;
                                             <tr>
-                                                <td>@count</td>
-                                                <th>@item.FeatureTitle1</th>
-                                                <td>@item.FeatureTitle2</td>
-                                                <td>@item.FeatureTitle3</td>
-                                                <td>@item.FeatureDescription1</td>
-                                                <td>@item.FeatureDescription2</td>
-                                                <td>@item.FeatureDescription3</td>
-                                                <td><a href="/Feature/FeatureDelete/@item.FeatureID" class="btn btn-outline-danger">Sil</a></td>
-                                                <td><a href="/Feature/FeatureUpdate/@item.FeatureID" class="btn btn-outline-primary">Güncelle</a></td>
+                                                <th>@item.SliderTitle1</th>
+                                                <td>@item.SliderTitle2</td>
+                                                <td>@item.SliderTitle3</td>
+                                                <td>@item.SliderDescription1</td>
+                                                <td>@item.SliderDescription2</td>
+                                                <td>@item.SliderDescription3</td>
+                                                <td><a href="/Slider/SliderDelete/@item.SliderID" class="btn btn-outline-danger">Sil</a></td>
+                                                <td><a href="/Slider/SliderUpdate/@item.SliderID" class="btn btn-outline-primary">Güncelle</a></td>
                                             </tr>
                                         }
                                     }

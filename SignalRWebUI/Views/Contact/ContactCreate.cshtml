@@ -1,60 +1,173 @@
 ﻿@model CreateContactDto
 
 @{
-    ViewData["Title"] = "ContactCreate";
+    ViewData["Title"] = "Yeni Alt İletişim";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
 <div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Alt İletişim</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Yeni Alt İletişim Ekleme</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="ContactLocation">Lokasyon</label>
-								<input asp-for="ContactLocation" type="text" class="form-control" id="ContactLocation" placeholder="Lokasyon Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactPhoneNumber">Telefon</label>
-								<input asp-for="ContactPhoneNumber" type="text" class="form-control" id="ContactPhoneNumber" placeholder="Telefon Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactMail">Mail</label>
-								<input asp-for="ContactMail" type="email" class="form-control" id="ContactMail" placeholder="Mail Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactFooterDescription">Açıklama</label>
-								<input asp-for="ContactFooterDescription" type="text" class="form-control" id="ContactFooterDescription" placeholder="Açıklama Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactTitle">Başlık</label>
-								<input asp-for="ContactTitle" type="text" class="form-control" id="ContactTitle" placeholder="Başlık Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactOpenDescription">Saatler</label>
-								<input asp-for="ContactOpenDescription" type="text" class="form-control" id="ContactOpenDescription" placeholder="Saatler İçin Açıklama Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactOpenDays">Günler</label>
-								<input asp-for="ContactOpenDays" type="text" class="form-control" id="ContactOpenDays" placeholder="Günleri Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="ContactOpenHours">Saatler</label>
-								<input asp-for="ContactOpenHours" type="text" class="form-control" id="ContactOpenHours" placeholder="Saatleri Giriniz...">
-							</div>
-						</div>
-						<div class="card-action">
-							<button class="btn btn-success">Alt İletişim Ekle</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">Alt İletişim</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><a href="/Contact/Index/">Alt İletişim</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Yeni Alt İletişim</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="ContactCreate" asp-controller="Contact" id="contactForm" novalidate>
+                    <div class="card contact-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-phone text-success mr-1"></i> Yeni Alt İletişim Ekleme
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactLocation" class="font-weight-bold">Lokasyon</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-map-marker"></i></span>
+                                    </div>
+                                    <input asp-for="ContactLocation" class="form-control" maxlength="250"
+                                           placeholder="Lokasyon Giriniz..." autofocus />
+                                </div>
+                                <span asp-validation-for="ContactLocation" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactPhoneNumber" class="font-weight-bold">Telefon</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-phone"></i></span>
+                                    </div>
+                                    <input asp-for="ContactPhoneNumber" type="tel" class="form-control" maxlength="30"
+                                           placeholder="Telefon Giriniz..." />
+                                </div>
+                                <span asp-validation-for="ContactPhoneNumber" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactMail" class="font-weight-bold">Mail</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-envelope"></i></span>
+                                    </div>
+                                    <input asp-for="ContactMail" type="email" class="form-control" maxlength="150"
+                                           placeholder="Mail Giriniz..." />
+                                </div>
+                                <span asp-validation-for="ContactMail" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactFooterDescription" class="font-weight-bold">Açıklama</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-align-left"></i></span>
+                                    </div>
+                                    <textarea asp-for="ContactFooterDescription" class="form-control" rows="3"
+                                              placeholder="Açıklama Giriniz..."></textarea>
+                                </div>
+                                <span asp-validation-for="ContactFooterDescription" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactTitle" class="font-weight-bold">Başlık</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input asp-for="ContactTitle" class="form-control" maxlength="150"
+                                           placeholder="Başlık Giriniz..." />
+                                </div>
+                                <span asp-validation-for="ContactTitle" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactOpenDescription" class="font-weight-bold">Çalışma Saatleri Açıklaması</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-info-circle"></i></span>
+                                    </div>
+                                    <input asp-for="ContactOpenDescription" class="form-control"
+                                           placeholder="Saatler İçin Açıklama Giriniz..." />
+                                </div>
+                                <span asp-validation-for="ContactOpenDescription" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactOpenDays" class="font-weight-bold">Günler</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-calendar"></i></span>
+                                    </div>
+                                    <input asp-for="ContactOpenDays" class="form-control"
+                                           placeholder="Günleri Giriniz..." />
+                                </div>
+                                <span asp-validation-for="ContactOpenDays" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ContactOpenHours" class="font-weight-bold">Saatler</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-clock-o"></i></span>
+                                    </div>
+                                    <input asp-for="ContactOpenHours" class="form-control"
+                                           placeholder="Saatleri Giriniz..." />
+                                </div>
+                                <span asp-validation-for="ContactOpenHours" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/Contact/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Alt İletişim Ekle
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .contact-card {
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+
+            .contact-card .form-control:focus {
+                border-color: #31ce36;
+                box-shadow: 0 0 0 .15rem rgba(49,206,54,.2);
+            }
+
+            .contact-card .input-group-text {
+                background: #f8f9fa;
+            }
+    </style>
+    <script>
+        // Çift tıklamayla aynı kaydın iki kez eklenmesini engeller
+        $('#contactForm').on('submit', function () {
+            if ($(this).valid()) {
+                $('#btnSubmit').prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm"></span> Kaydediliyor...');
+            }
+        });
+    </script>
+}

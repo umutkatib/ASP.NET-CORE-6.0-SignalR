@@ -1,0 +1,63 @@
+﻿@model UpdateSliderDto
+
+@{
+    ViewData["Title"] = "SliderUpdate";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Öne Çıkanlar</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Yeni Öne Çıkan Güncelleme</div>
+						</div>
+						<input type="hidden" asp-for="SliderID" />
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SliderTitle1">1. Başlık</label>
+								<input asp-for="SliderTitle1" type="text" class="form-control" id="SliderTitle1" placeholder="1. Başlık Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SliderTitle2">2. Başlık</label>
+								<input asp-for="SliderTitle2" type="text" class="form-control" id="SliderTitle2" placeholder="2. Başlık Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SliderTitle3">3. Başlık</label>
+								<input asp-for="SliderTitle3" type="text" class="form-control" id="SliderTitle3" placeholder="3. Başlık Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SliderDescription1">1. Açıklama</label>
+								<input asp-for="SliderDescription1" type="text" class="form-control" id="SliderDescription1" placeholder="1. Açıklama Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SliderDescription2">2. Açıklama</label>
+								<input asp-for="SliderDescription2" type="text" class="form-control" id="SliderDescription2" placeholder="2. Açıklama Giriniz...">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SliderDescription3">3. Açıklama</label>
+								<input asp-for="SliderDescription3" type="text" class="form-control" id="SliderDescription3" placeholder="3. Açıklama Giriniz...">
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-success">Öne Çıkanları Güncelle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
