@@ -15,7 +15,7 @@ namespace SignalR.DataAccessLayer.EntityFramework
 		{
 			using var context = new SignalRContext();
 			var values = context.Bookings.Find(id);
-			values.BookingDescription = "Rezervasyon Onaylandı!";
+			values.BookingStatus = true;
 			context.SaveChanges();
 		}
 
@@ -23,7 +23,7 @@ namespace SignalR.DataAccessLayer.EntityFramework
 		{
 			using var context = new SignalRContext();
 			var values = context.Bookings.Find(id);
-			values.BookingDescription = "Rezervasyon İptal Edildi!";
+			values.BookingStatus = false;
 			context.SaveChanges();
 		}
 	}

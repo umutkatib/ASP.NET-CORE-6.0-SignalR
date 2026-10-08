@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using SignalRWebUI.Dtos.CategoryDtos;
 using SignalRWebUI.Dtos.ProductDtos;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SignalRWebUI.Controllers
 {
@@ -99,7 +98,6 @@ namespace SignalRWebUI.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ProductUpdate(UpdateProductDto updateProductDto)
 		{
-			updateProductDto.ProductStatus = true;
 			var client = _httpClientFactory.CreateClient();
 			var jsonData = JsonConvert.SerializeObject(updateProductDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -109,6 +107,19 @@ namespace SignalRWebUI.Controllers
 				return RedirectToAction("Index");
 			}
 			return View();
+		}
+
+		public async Task<IActionResult> ChangeProductStatusToFalse(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/Products/ChangeProductStatusToFalse/{id}");
+			return RedirectToAction("Index");
+		}
+		public async Task<IActionResult> ChangeProductStatusToTrue(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/Products/ChangeProductStatusToTrue/{id}");
+			return RedirectToAction("Index");
 		}
 	}
 }

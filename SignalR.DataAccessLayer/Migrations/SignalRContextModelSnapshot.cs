@@ -318,6 +318,9 @@ namespace SignalR.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("BookingStatus")
+                        .HasColumnType("bit");
+
                     b.HasKey("BookingID");
 
                     b.ToTable("Bookings");
@@ -407,6 +410,9 @@ namespace SignalR.DataAccessLayer.Migrations
                     b.Property<string>("DiscountImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DiscountStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("DiscountTitle")
                         .IsRequired()

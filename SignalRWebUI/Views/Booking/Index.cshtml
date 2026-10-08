@@ -6,7 +6,6 @@
 }
 
 <!-- DataTables CSS (Bootstrap 4 teması) -->
-<!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css" />
 
 <script src="~/js/site.js" asp-append-version="true"></script>
@@ -17,14 +16,36 @@
         <script type="text/javascript">
             $(document).ready(() => {
 
-                // DataTable'ı BİR KEZ oluştur
+                const escapeHtml = (s) => $('<div>').text(s ?? '').html().replace(/"/g, '&quot;');
+
                 const table = $("#bookingTable").DataTable({
                     pageLength: 10,
+                    autoWidth: false,
                     language: {
                         url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/tr.json"
                     },
                     columnDefs: [
-                        { targets: -1, orderable: false, searchable: false } // İşlemler sütunu
+                        {
+                            targets: 5,
+                            render: function (data, type) {
+                                if (type !== 'display') return data;
+                                const safe = escapeHtml(data);
+                                return `<span class="d-inline-block text-truncate align-middle" style="max-width:250px" title="${safe}">${safe}</span>`;
+                            }
+                        },
+                        {
+                            targets: 6,
+                            className: 'text-nowrap',
+                            render: function (data, type) {
+                                const approved = data === true;
+                                const text = approved ? 'ONAYLANDI!' : ' ONAYLANMADI!';
+                                if (type !== 'display') return text;
+                                return `<span class="badge badge-pill badge-${approved ? 'success' : 'danger'}">
+                                            <i class="la ${approved ? 'la-check-circle' : 'la-times-circle'}"></i> ${text}
+                                        </span>`;
+                            }
+                        },
+                        { targets: -1, orderable: false, searchable: false, className: 'text-nowrap', width: '1%' }
                     ]
                 });
 
@@ -41,25 +62,24 @@
                 }).catch((err) => console.log(err));
 
                 connection.on("ReceiveBookingList", (values) => {
-                    // Veri değişmediyse tabloyu yeniden çizme (titremeyi önler)
                     const json = JSON.stringify(values);
                     if (json === lastData) return;
                     lastData = json;
 
                     const rows = values.map((item, index) => [
                         index + 1,
-                        item.bookingName,
-                        item.bookingPhone,
+                        escapeHtml(item.bookingName),
+                        escapeHtml(item.bookingPhone),
                         item.bookingPersonCount,
-                        item.bookingMail,
-                        item.bookingDescription,
+                        escapeHtml(item.bookingMail),
+                        item.bookingDescription, // render fonksiyonu kısaltıp escape ediyor
+                        item.bookingStatus,      // render fonksiyonu rozete çeviriyor
                         `<a href="/Booking/BookingStatusApproved/${item.bookingID}" class="btn btn-sm btn-success" title="Onayla"><i class="la la-check"></i></a>
                          <a href="/Booking/BookingStatusCancelled/${item.bookingID}" class="btn btn-sm btn-dark" title="İptal Et"><i class="la la-ban"></i></a>
                          <a href="/Booking/BookingUpdate/${item.bookingID}" class="btn btn-sm btn-primary" title="Güncelle"><i class="la la-edit"></i></a>
                          <a href="/Booking/BookingDelete/${item.bookingID}" class="btn btn-sm btn-danger btn-delete" title="Sil"><i class="la la-trash"></i></a>`
                     ]);
 
-                    // draw(false): mevcut sayfa, arama ve sıralama korunur
                     table.clear().rows.add(rows).draw(false);
                 });
             });
@@ -77,20 +97,24 @@
                     </div>
                     <div class="card-body">
 
-                        <table id="bookingTable" class="table table-hover table-striped align-middle" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Ad Soyad</th>
-                                    <th>Telefon</th>
-                                    <th>Kişi Sayısı</th>
-                                    <th>Mail</th>
-                                    <th>Rezervasyon Durumu</th>
-                                    <th>İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table id="bookingTable" class="table table-hover table-striped align-middle" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Ad Soyad</th>
+                                        <th>Telefon</th>
+                                        <th>Kişi Sayısı</th>
+                                        <th>Mail</th>
+                                        <th>Açıklama</th>
+                                        <th>Rezervasyon Durumu</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -98,7 +122,6 @@
     </div>
 </div>
 
-@* TempData / Swal blokları aynen kalıyor *@
 @if (TempData["SuccessMessage"] != null)
 {
     <script>
@@ -139,5 +162,4 @@
 @section Scripts {
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
-    <script> /* tablo kodun */ </script>
 }

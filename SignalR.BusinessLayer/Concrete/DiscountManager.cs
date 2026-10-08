@@ -1,11 +1,6 @@
 ﻿using SignalR.BusinessLayer.Abstract;
 using SignalR.DataAccessLayer.Abstract;
 using SignalR.EntityLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SignalR.BusinessLayer.Concrete
 {
@@ -21,6 +16,16 @@ namespace SignalR.BusinessLayer.Concrete
 		public void TAdd(Discount entity)
 		{
 			_discountDal.Add(entity);
+		}
+
+		public void TChangeStatusToFalse(int id)
+		{
+			_discountDal.ChangeStatusToFalse(id);
+		}
+
+		public void TChangeStatusToTrue(int id)
+		{
+			_discountDal.ChangeStatusToTrue(id);
 		}
 
 		public void TDelete(Discount entity)

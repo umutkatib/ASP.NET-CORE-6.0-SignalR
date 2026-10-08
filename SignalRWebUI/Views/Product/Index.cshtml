@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <div class="card-title mb-0">Kategori Listesi</div>
+                        <div class="card-title mb-0">Ürün Listesi</div>
                         <a href="/Product/ProductCreate/" class="btn btn-success btn-round">
                             <i class="la la-plus"></i> Yeni Ürün Ekle
                         </a>
@@ -32,6 +32,7 @@
                                     <th scope="col">Durum</th>
                                     <th scope="col">Sil</th>
                                     <th scope="col">Güncelle</th>
+                                    <th scope="col">Aktif/Pasif</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,6 +62,10 @@
                                             </td>
                                             <td><a href="/Product/ProductDelete/@item.ProductID" class="btn btn-outline-danger">Sil</a></td>
                                             <td><a href="/Product/ProductUpdate/@item.ProductID" class="btn btn-outline-primary">Güncelle</a></td>
+                                            <td>
+                                                <a href="/Product/ChangeProductStatusToTrue/@item.ProductID" class="btn btn-sm btn-primary" title="Aktif"><i class="la la-check"></i></a>
+                                                <a href="/Product/ChangeProductStatusToFalse/@item.ProductID" class="btn btn-sm btn-warning" title="Pasif"><i class="la la-ban"></i></a>
+                                            </td>
                                         </tr>
                                     }
                                 }

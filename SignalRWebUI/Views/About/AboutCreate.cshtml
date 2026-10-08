@@ -1,44 +1,113 @@
 ﻿@model CreateAboutDto
 
 @{
-    ViewData["Title"] = "AboutCreate";
+    ViewData["Title"] = "Yeni Hakkımızda";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-
 <div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Hakkımızda</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Yeni Hakkımızda Ekleme</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="AboutTitle">Başlık</label>
-								<input asp-for="AboutTitle" type="text" class="form-control" id="AboutTitle" placeholder="Başlık Giriniz...">
-							</div>
-							<div class="form-group">
-								<label for="AboutDescription">Açıklama</label>
-								<textarea rows="5" class="form-control" type="text" asp-for="AboutDescription" id="AboutDescription"  placeholder="Açıklama Giriniz...">
+    <div class="container-fluid">
 
-								</textarea>
-							</div>
-							<div class="form-group">
-								<label for="AboutImageUrl">Görsel</label>
-								<input asp-for="AboutImageUrl" type="text" class="form-control" id="AboutImageUrl" placeholder="Ürün Görseli Giriniz...">
-							</div>
-						</div>
-						<div class="card-action">
-							<button class="btn btn-success">Hakkımızda Ekle</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">Hakkımızda</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><a href="/About/Index/">Hakkımızda</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Yeni Hakkımızda</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="AboutCreate" asp-controller="About" id="aboutForm" novalidate>
+                    <div class="card product-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-info-circle text-success mr-1"></i> Yeni Hakkımızda Ekleme
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="form-group">
+                                <label asp-for="AboutTitle" class="font-weight-bold">Başlık</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input asp-for="AboutTitle" class="form-control" maxlength="150"
+                                           placeholder="Başlık Giriniz..." autofocus />
+                                </div>
+                                <span asp-validation-for="AboutTitle" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AboutDescription" class="font-weight-bold">Açıklama</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-align-left"></i></span>
+                                    </div>
+                                    <textarea asp-for="AboutDescription" class="form-control" rows="5"
+                                              placeholder="Açıklama Giriniz..."></textarea>
+                                </div>
+                                <span asp-validation-for="AboutDescription" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AboutImageUrl" class="font-weight-bold">Görsel</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-image"></i></span>
+                                    </div>
+                                    <input asp-for="AboutImageUrl" class="form-control"
+                                           placeholder="https://... veya /images/hakkimizda.jpg" />
+                                </div>
+                                <span asp-validation-for="AboutImageUrl" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/About/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Hakkımızda Ekle
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .product-card {
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+
+            .product-card .form-control:focus {
+                border-color: #31ce36;
+                box-shadow: 0 0 0 .15rem rgba(49,206,54,.2);
+            }
+
+            .product-card .input-group-text {
+                background: #f8f9fa;
+            }
+    </style>
+    <script>
+        // Çift tıklamayla aynı kaydın iki kez eklenmesini engeller
+        $('#aboutForm').on('submit', function () {
+            if ($(this).valid()) {
+                $('#btnSubmit').prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm"></span> Kaydediliyor...');
+            }
+        });
+    </script>
+}

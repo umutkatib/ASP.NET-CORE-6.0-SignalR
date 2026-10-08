@@ -114,5 +114,18 @@ namespace SignalRApi.Controllers
 		{
 			return Ok(_productService.TProductCountByCategoryNameDrink());
 		}
+
+		[HttpGet("ChangeProductStatusToFalse/{id}")]
+		public IActionResult ChangeProductStatusToFalse(int id)
+		{
+			_productService.TChangeProductStatusToFalse(id);
+			return Ok();
+		}
+		[HttpGet("ChangeProductStatusToTrue/{id}")]
+		public IActionResult ChangeProductStatusToTrue(int id)
+		{
+			_productService.TChangeProductStatusToTrue(id);
+			return Ok();
+		}
 	}
 }

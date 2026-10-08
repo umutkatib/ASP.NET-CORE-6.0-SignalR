@@ -31,7 +31,7 @@ namespace SignalRApi.Controllers
 			_categoryService.TAdd(new Category()
 			{
 				CategoryName = categoryDto.CategoryName,
-				CategoryStatus = true
+				CategoryStatus = categoryDto.CategoryStatus,
 			});
 			return Ok();
 		}
