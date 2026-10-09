@@ -88,6 +88,12 @@ namespace SignalR.DataAccessLayer.EntityFramework
 			value.ProductStatus = true;
 			context.SaveChanges();
 		}
+
+		public List<Product> GetListStatusByTrue()
+		{
+			using var context = new SignalRContext();
+			return context.Products.Where(x => x.ProductStatus == true).ToList();
+		}
 	}
 }
 

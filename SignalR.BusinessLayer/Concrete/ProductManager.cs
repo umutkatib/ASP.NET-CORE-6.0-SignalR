@@ -87,5 +87,10 @@ namespace SignalR.BusinessLayer.Concrete
 		{
 			_productDal.ChangeProductStatusToTrue(id);
 		}
+
+		public List<Product> TGetListStatusByTrue()
+		{
+			return _productDal.GetListStatusByTrue();
+		}
 	}
 }

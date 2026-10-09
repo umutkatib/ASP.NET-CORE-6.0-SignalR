@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.TestimonialDtos;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SignalRWebUI.Controllers
 {
@@ -80,6 +81,19 @@ namespace SignalRWebUI.Controllers
 				return RedirectToAction("Index");
 			}
 			return View();
+		}
+
+		public async Task<IActionResult> ChangeTestimonialStatusToFalse(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/Testimonials/ChangeTestimonialStatusToFalse/{id}");
+			return RedirectToAction("Index");
+		}
+		public async Task<IActionResult> ChangeTestimonialStatusToTrue(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/Testimonials/ChangeTestimonialStatusToTrue/{id}");
+			return RedirectToAction("Index");
 		}
 	}
 }

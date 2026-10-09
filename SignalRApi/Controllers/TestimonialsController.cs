@@ -65,5 +65,26 @@ namespace SignalRApi.Controllers
 			var value = _testimonialService.TGetByID(id);
 			return Ok(value);
 		}
+
+		[HttpGet("ChangeTestimonialStatusToFalse/{id}")]
+		public IActionResult ChangeTestimonialStatusToFalse(int id)
+		{
+			_testimonialService.TChangeTestimonialStatusToFalse(id);
+			return Ok();
+		}
+		[HttpGet("ChangeTestimonialStatusToTrue/{id}")]
+		public IActionResult ChangeTestimonialStatusToTrue(int id)
+		{
+			_testimonialService.TChangeTestimonialStatusToTrue(id);
+			return Ok();
+		}
+		
+		[HttpGet("GetListStatusByTrue")]
+		public IActionResult GetListStatusByTrue()
+		{
+			return Ok(_testimonialService.TGetListStatusByTrue());
+		}
+
+
 	}
 }

@@ -127,5 +127,11 @@ namespace SignalRApi.Controllers
 			_productService.TChangeProductStatusToTrue(id);
 			return Ok();
 		}
+		
+		[HttpGet("GetListStatusByTrue")]
+		public IActionResult GetListStatusByTrue()
+		{	
+			return Ok(_productService.TGetListStatusByTrue());
+		}
 	}
 }

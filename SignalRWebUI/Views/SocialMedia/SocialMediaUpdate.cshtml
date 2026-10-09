@@ -1,45 +1,127 @@
 ﻿@model UpdateSocialMediaDto
 
 @{
-    ViewData["Title"] = "SocialMediaUpdate";
+    ViewData["Title"] = "Sosyal Medya Güncelle";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
 <div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Sosyal Medya</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Yeni Sosyal Medya Güncelleme</div>
-						</div>
-						<input type="hidden" asp-for="SocialMediaID" />
-						<div class="card-body">
-							<div class="form-group">
-								<label for="SocialMediaTitle">Başlık</label>
-								<input asp-for="SocialMediaTitle" type="text" class="form-control" id="SocialMediaTitle" placeholder="Başlık Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="SocialMediaIcon">İkon</label>
-								<input asp-for="SocialMediaIcon" type="text" class="form-control" id="SocialMediaIcon" placeholder="İkon Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="SocialMediaUrl">Link</label>
-								<input asp-for="SocialMediaUrl" type="text" class="form-control" id="SocialMediaUrl" placeholder="Link Giriniz...">
-							</div>
-						</div>
-						<div class="card-action">
-							<button class="btn btn-success">Sosyal Medyayı Güncelle</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">Sosyal Medya</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><a href="/SocialMedia/Index/">Sosyal Medya</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sosyal Medya Güncelle</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="SocialMediaUpdate" asp-controller="SocialMedia" id="socialMediaForm" novalidate>
+                    <input type="hidden" asp-for="SocialMediaID" />
+
+                    <div class="card product-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-edit text-success mr-1"></i> Sosyal Medya Güncelleme
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="form-group">
+                                <label asp-for="SocialMediaTitle" class="font-weight-bold">Başlık</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input asp-for="SocialMediaTitle" class="form-control" maxlength="150"
+                                           placeholder="Başlık Giriniz..." />
+                                </div>
+                                <span asp-validation-for="SocialMediaTitle" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="SocialMediaIcon" class="font-weight-bold">İkon</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-star"></i></span>
+                                    </div>
+                                    <input asp-for="SocialMediaIcon" class="form-control"
+                                           placeholder="İkon Giriniz... (örn: la la-facebook)" />
+                                </div>
+                                <span asp-validation-for="SocialMediaIcon" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="SocialMediaUrl" class="font-weight-bold">Link</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-link"></i></span>
+                                    </div>
+                                    <input asp-for="SocialMediaUrl" class="form-control"
+                                           placeholder="https://..." />
+                                </div>
+                                <span asp-validation-for="SocialMediaUrl" class="text-danger small"></span>
+                            </div>
+
+                            @*
+                            DTO'nda SocialMediaStatus (bool) varsa bu bloğu aç:
+
+                            <div class="form-group">
+                                <label class="font-weight-bold d-block">Durum</label>
+                                <div class="custom-control custom-switch">
+                                    <input asp-for="SocialMediaStatus" type="checkbox" class="custom-control-input" />
+                                    <label class="custom-control-label" asp-for="SocialMediaStatus">Aktif</label>
+                                </div>
+                            </div>
+                            *@
+                        </div>
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/SocialMedia/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Sosyal Medyayı Güncelle
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .product-card {
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+
+            .product-card .form-control:focus {
+                border-color: #31ce36;
+                box-shadow: 0 0 0 .15rem rgba(49,206,54,.2);
+            }
+
+            .product-card .input-group-text {
+                background: #f8f9fa;
+            }
+    </style>
+    <script>
+        // Çift tıklamayla formun iki kez gönderilmesini engeller
+        $('#socialMediaForm').on('submit', function () {
+            if ($(this).valid()) {
+                $('#btnSubmit').prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm"></span> Güncelleniyor...');
+            }
+        });
+    </script>
+}

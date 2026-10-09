@@ -22,7 +22,7 @@
                             Öne Çıkanlar ile ilgili işlemleri buradan gerçekleştirebilirsiniz.
                         </div>
                         <div class="table-responsive">
-                            <table class="table mt-3" id="featureTable">
+                            <table class="table mt-3">
                                 <thead>
                                     <tr>
                                         <th scope="col">Başlık 1</th>
@@ -39,7 +39,7 @@
                                     @if (Model == null || !Model.Any())
                                     {
                                         <tr>
-                                            <td colspan="9" class="text-center text-muted py-4">
+                                            <td colspan="8" class="text-center text-muted py-4">
                                                 Henüz öne çıkan alan eklenmemiş.
                                             </td>
                                         </tr>
@@ -69,35 +69,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css" />
-    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#featureTable').DataTable({
-                pageLength: 10,
-                lengthMenu: [5, 10, 25, 50],
-                columnDefs: [
-                    { orderable: false, targets: [7, 8] }
-                ],
-                language: {
-                    info: "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
-                    infoEmpty: "Kayıt bulunamadı",
-                    infoFiltered: "(toplam _MAX_ kayıt içinden filtrelendi)",
-                    lengthMenu: "Sayfada _MENU_ kayıt göster",
-                    search: "Ara:",
-                    zeroRecords: "Eşleşen kayıt bulunamadı",
-                    paginate: {
-                        first: "İlk",
-                        last: "Son",
-                        next: "Sonraki",
-                        previous: "Önceki"
-                    }
-                }
-            });
-        });
-    </script>
-}

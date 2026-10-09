@@ -18,6 +18,16 @@ namespace SignalR.BusinessLayer.Concrete
 			_testimonialDal.Add(entity);
 		}
 
+		public void TChangeTestimonialStatusToFalse(int id)
+		{
+			_testimonialDal.ChangeTestimonialStatusToFalse(id);
+		}
+
+		public void TChangeTestimonialStatusToTrue(int id)
+		{
+			_testimonialDal.ChangeTestimonialStatusToTrue(id);
+		}
+
 		public void TDelete(Testimonial entity)
 		{
 			_testimonialDal.Delete(entity);
@@ -31,6 +41,11 @@ namespace SignalR.BusinessLayer.Concrete
 		public List<Testimonial> TGetListAll()
 		{
 			return _testimonialDal.GetListAll();
+		}
+
+		public List<Testimonial> TGetListStatusByTrue()
+		{
+			return _testimonialDal.GetListStatusByTrue();
 		}
 
 		public void TUpdate(Testimonial entity)

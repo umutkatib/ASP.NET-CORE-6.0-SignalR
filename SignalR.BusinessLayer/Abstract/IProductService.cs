@@ -14,5 +14,7 @@ namespace SignalR.BusinessLayer.Abstract
 		decimal TProductAvgPriceByHamburger();
 		void TChangeProductStatusToFalse(int id);
 		void TChangeProductStatusToTrue(int id);
+		List<Product> TGetListStatusByTrue();
+
 	}
 }

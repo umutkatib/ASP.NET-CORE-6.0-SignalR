@@ -77,5 +77,11 @@ namespace SignalRApi.Controllers
 			_discountService.TChangeStatusToTrue(id);
 			return Ok();
 		}
+		
+		[HttpGet("GetListStatusByTrue")]
+		public IActionResult GetListStatusByTrue()
+		{
+			return Ok(_discountService.TGetListStatusByTrue());
+		}
 	}
 }

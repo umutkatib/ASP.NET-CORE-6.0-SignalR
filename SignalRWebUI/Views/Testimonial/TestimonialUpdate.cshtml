@@ -6,46 +6,121 @@
 }
 
 <div class="content">
-	<div class="container-fluid">
-		<h4 class="page-title">Referans-Yorum</h4>
-		<div class="row">
-			<div class="col-md-12">
-				<form method="post">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Referans-Yorum Güncelleme</div>
-						</div>
-						<input type="hidden" asp-for="TestimonialID" />
-						<div class="card-body">
-							<div class="form-group">
-								<label for="TestimonialName">Müşteri Adı</label>
-								<input asp-for="TestimonialName" type="text" class="form-control" id="TestimonialName" placeholder="Müşteri Adı Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="TestimonialTitle">Müşteri Ünvan</label>
-								<input asp-for="TestimonialTitle" type="text" class="form-control" id="TestimonialTitle" placeholder="Müşteri Ünvanı Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="TestimonialImageUrl">Resim Yolu</label>
-								<input asp-for="TestimonialImageUrl" type="text" class="form-control" id="TestimonialImageUrl" placeholder="Müşteri Resim Yolu Giriniz...">
-							</div>
-						</div>
-						<div class="card-body">
-							<div class="form-group">
-								<label for="TestimonialComment">Yorum</label>
-								<input asp-for="TestimonialComment" type="text" class="form-control" id="TestimonialComment" placeholder="Müşteri Yorumu Giriniz...">
-							</div>
-						</div>
-						<div class="card-action">
-							<button class="btn btn-success">Referans-Yorumu Güncelle</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">Referans-Yorum</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item"><a href="/Testimonial/Index/">Referans-Yorumlar</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Referans-Yorum Güncelleme</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="TestimonialUpdate" asp-controller="Testimonial" id="testimonialForm" novalidate>
+                    <input type="hidden" asp-for="TestimonialID" />
+                    <div class="card testimonial-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-comments text-success mr-1"></i>Referans-Yorum Güncelleme
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="form-group">
+                                <label asp-for="TestimonialName" class="font-weight-bold">Müşteri Adı</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-user"></i></span>
+                                    </div>
+                                    <input asp-for="TestimonialName" class="form-control" maxlength="150"
+                                           placeholder="Müşteri Adı Giriniz..." />
+                                </div>
+                                <span asp-validation-for="TestimonialName" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="TestimonialTitle" class="font-weight-bold">Müşteri Ünvanı</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-briefcase"></i></span>
+                                    </div>
+                                    <input asp-for="TestimonialTitle" class="form-control" maxlength="150"
+                                           placeholder="Müşteri Ünvanı Giriniz..." />
+                                </div>
+                                <span asp-validation-for="TestimonialTitle" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="TestimonialImageUrl" class="font-weight-bold">Resim Yolu</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-image"></i></span>
+                                    </div>
+                                    <input asp-for="TestimonialImageUrl" class="form-control"
+                                           placeholder="https://... veya /images/musteri.jpg" />
+                                </div>
+                                <span asp-validation-for="TestimonialImageUrl" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="TestimonialComment" class="font-weight-bold">Yorum</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-align-left"></i></span>
+                                    </div>
+                                    <textarea asp-for="TestimonialComment" class="form-control" rows="3"
+                                              placeholder="Müşteri Yorumu Giriniz..."></textarea>
+                                </div>
+                                <span asp-validation-for="TestimonialComment" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/Testimonial/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Referans-Yorumu Güncelle
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .testimonial-card {
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+
+            .testimonial-card .form-control:focus {
+                border-color: #31ce36;
+                box-shadow: 0 0 0 .15rem rgba(49,206,54,.2);
+            }
+
+            .testimonial-card .input-group-text {
+                background: #f8f9fa;
+            }
+    </style>
+    <script>
+        // Çift tıklamayla aynı kaydın iki kez eklenmesini engeller
+        $('#testimonialForm').on('submit', function () {
+            if ($(this).valid()) {
+                $('#btnSubmit').prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm"></span> Kaydediliyor...');
+            }
+        });
+    </script>
+}
