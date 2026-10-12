@@ -40,9 +40,7 @@ namespace SignalRWebUI.Controllers
 			return View();
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Logout()
+		public async Task<IActionResult> LogOut()
 		{
 			await _signInManager.SignOutAsync();
 			return RedirectToAction("Index", "Login");

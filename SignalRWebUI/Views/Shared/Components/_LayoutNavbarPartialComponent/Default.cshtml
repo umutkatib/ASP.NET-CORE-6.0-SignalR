@@ -1,4 +1,5 @@
-﻿
+﻿@model ResultUserDto
+
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
 
@@ -78,10 +79,10 @@
 						<i class="la la-envelope"></i>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">Gelen Mesajlar</a>
-						<a class="dropdown-item" href="#">Rezervasyonlar</a>
+						<a class="dropdown-item" href="/Notification/Index/">Gelen Mesajlar</a>
+						<a class="dropdown-item" href="/Booking/Index/">Rezervasyonlar</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">İletişim</a>
+						<a class="dropdown-item" href="/Contact/Index/">İletişim</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown hidden-caret">
@@ -104,25 +105,23 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="~/Ready-Bootstrap-Dashboard/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>KATIB</span></span> </a>
+					<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="~/Ready-Bootstrap-Dashboard/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>@Model.UserName</span></span> </a>
 					<ul class="dropdown-menu dropdown-user">
 						<li>
 							<div class="user-box">
 								<div class="u-img"><img src="~/Ready-Bootstrap-Dashboard/assets/img/profile.jpg" alt="user"></div>
 								<div class="u-text">
-									<h4>Hizrian</h4>
-									<p class="text-muted">siqnalr@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Menüyü Gör</a>
+									<h4>@Model.Name @Model.Surname</h4>
+									<p class="text-muted">@Model.Mail</p><a href="/Menu/Index/" class="btn btn-rounded btn-danger btn-sm">Menüyü Gör</a>
 								</div>
 							</div>
 						</li>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"><i class="ti-user"></i> Menü</a>
-						<a class="dropdown-item" href="#"></i> Ayarlar</a>
-						<a class="dropdown-item" href="#"><i class="ti-email"></i> Rezervasyonlar</a>
+						<a class="dropdown-item" href="/Menu/Index/"><i class="ti-user"></i> Menü</a>
+						<a class="dropdown-item" href="/Settings/Index/"></i> Ayarlar</a>
+						<a class="dropdown-item" href="/Mail/Index/"><i class="ti-email"></i> Rezervasyonlar</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"><i class="ti-settings"></i>Dashboard</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Çıkış Yap</a>
+						<a class="dropdown-item" href="/Login/LogOut/"><i class="fa fa-power-off"></i> Çıkış Yap</a>
 					</ul>
 					<!-- /.dropdown-user -->
 				</li>
