@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">QrCode</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-0">
+                    <li class="breadcrumb-item active" aria-current="page">Yeni QrCode</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="Index" asp-controller="QRCode" class="mb-3">
+                    <input type="text" name="value" value="@ViewBag.Value" class="form-control mb-2" style="max-width:400px" />
+                    <button type="submit" class="btn btn-primary">QrCode Oluştur</button>
+                </form>
+
+                @if (ViewBag.Error != null)
+                {
+                    <span class="text-danger w-25">@ViewBag.Error</span>
+                }
+
+                @if (ViewBag.QrCodeImage != null)
+                {
+                    <img src="@ViewBag.QrCodeImage" alt="QR Code" style="width:400px;height:400px" />
+                }
+            </div>
+        </div>
+    </div>
+</div>

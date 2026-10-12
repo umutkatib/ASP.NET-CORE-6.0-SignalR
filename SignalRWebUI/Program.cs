@@ -1,10 +1,19 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using SignalR.DataAccessLayer.Concrete;
 using SignalR.EntityLayer.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opt =>
+{
+	opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
+});
+
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<SignalRContext>();
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -24,7 +33,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.AccessDeniedPath = "/Login/Index";
 	options.ExpireTimeSpan = TimeSpan.FromHours(4);
 	options.SlidingExpiration = true;
-
 });
 
 var app = builder.Build();

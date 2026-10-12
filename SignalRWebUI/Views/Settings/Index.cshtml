@@ -1,0 +1,141 @@
+﻿@model UserEditDto
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" asp-action="Index" asp-controller="Settings" id="settingsForm" novalidate>
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="la la-folder-plus text-success mr-1"></i> Ayarları Güncelleme
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                            <div class="form-group">
+                                <label asp-for="Name" class="font-weight-bold">Adınız</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input type="text" asp-for="Name" class="form-control" maxlength="100"
+                                           placeholder="Adınızı Giriniz" />
+                                    <span asp-validation-for="Name" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Surname" class="font-weight-bold">Soyadınız</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input type="text" asp-for="Surname" class="form-control" maxlength="100"
+                                           placeholder="Soyadınızı Giriniz" />
+                                    <span asp-validation-for="Surname" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="UserName" class="font-weight-bold">Kullanıcı Adınız</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input type="text" asp-for="UserName" class="form-control" maxlength="100"
+                                           placeholder="Kullanıcı Adı Giriniz" />
+                                    <span asp-validation-for="UserName" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Mail" class="font-weight-bold">Mail</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input type="email" asp-for="Mail" class="form-control" maxlength="100"
+                                           placeholder="Mail Giriniz" />
+                                    <span asp-validation-for="Mail" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password" class="font-weight-bold">Şifre</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input type="password" asp-for="Password" class="form-control" maxlength="100"
+                                           placeholder="Şifrenizi Giriniz" />
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="PasswordConfirm" class="font-weight-bold">Şifre Onay</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="la la-tag"></i></span>
+                                    </div>
+                                    <input type="password" asp-for="PasswordConfirm" class="form-control" maxlength="100"
+                                           placeholder="Şifrenizi Onaylayınız" />
+                                    <span asp-validation-for="PasswordConfirm" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card-action d-flex justify-content-between">
+                            <a href="/Category/Index/" class="btn btn-outline-secondary btn-round">
+                                <i class="la la-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-success btn-round" id="btnSubmit">
+                                <i class="la la-check"></i> Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .settings-card {
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+
+            .settings-card .form-control:focus {
+                border-color: #31ce36;
+                box-shadow: 0 0 0 .15rem rgba(49,206,54,.2);
+            }
+
+            .settings-card .input-group-text {
+                background: #f8f9fa;
+            }
+    </style>
+    <script>
+        // Çift tıklamayla aynı kaydın iki kez eklenmesini engeller
+        $('#settingsForm').on('submit', function () {
+            if ($(this).valid()) {
+                $('#btnSubmit').prop('disabled', true)
+                    .html('<span class="spinner-border spinner-border-sm"></span> Kaydediliyor...');
+            }
+        });
+    </script>
+}
