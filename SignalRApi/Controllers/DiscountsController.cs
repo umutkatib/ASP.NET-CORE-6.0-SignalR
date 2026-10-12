@@ -22,20 +22,13 @@ namespace SignalRApi.Controllers
 		[HttpGet]
 		public IActionResult DiscountList()
 		{
-			var values = _mapper.Map<List<ResultDiscountDto>>(_discountService.TGetListAll());
-			return Ok(values);
+			return Ok(_mapper.Map<List<ResultDiscountDto>>(_discountService.TGetListAll()));
 		}
 		[HttpPost]
 		public IActionResult DiscountCreate(CreateDiscountDto createDiscountDto)
 		{
-			_discountService.TAdd(new Discount()
-			{
-				DiscountTitle = createDiscountDto.DiscountTitle,
-				DiscountAmount = createDiscountDto.DiscountAmount,
-				DiscountDescription = createDiscountDto.DiscountDescription,
-				DiscountImageUrl = createDiscountDto.DiscountImageUrl,
-				DiscountStatus = createDiscountDto.DiscountStatus,
-			});
+			var value = _mapper.Map<Discount>(createDiscountDto);
+			_discountService.TAdd(value);
 			return Ok();
 		}
 		[HttpDelete("{id}")]
@@ -48,22 +41,15 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult DiscountUpdate(UpdateDiscountDto updateDiscountDto)
 		{
-			_discountService.TUpdate(new Discount()
-			{
-				DiscountID = updateDiscountDto.DiscountID,
-				DiscountTitle = updateDiscountDto.DiscountTitle,
-				DiscountAmount = updateDiscountDto.DiscountAmount,
-				DiscountDescription = updateDiscountDto.DiscountDescription,
-				DiscountImageUrl = updateDiscountDto.DiscountImageUrl,
-				DiscountStatus = updateDiscountDto.DiscountStatus,
-			});
+			var value = _mapper.Map<Discount>(updateDiscountDto);
+			_discountService.TUpdate(value);
 			return Ok();
 		}
 		[HttpGet("{id}")]
 		public IActionResult DiscountGet(int id)
 		{
 			var value = _discountService.TGetByID(id);
-			return Ok(value);
+			return Ok(_mapper.Map<GetDiscountDto>(value));
 		}
 		[HttpGet("ChangeStatusToFalse/{id}")]
 		public IActionResult ChangeStatusToFalse(int id)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
+using SignalR.DtoLayer.BookingDto;
 using SignalR.DtoLayer.CategoryDto;
 using SignalR.EntityLayer.Entities;
 
@@ -22,17 +23,13 @@ namespace SignalRApi.Controllers
 		[HttpGet]
 		public IActionResult CategoryList()
 		{
-			var values = _mapper.Map<List<ResultCategoryDto>>(_categoryService.TGetListAll());
-			return Ok(values);
+			return Ok(_mapper.Map<List<ResultCategoryDto>>(_categoryService.TGetListAll()));
 		}
 		[HttpPost]
 		public IActionResult CategoryCreate(CreateCategoryDto categoryDto)
 		{
-			_categoryService.TAdd(new Category()
-			{
-				CategoryName = categoryDto.CategoryName,
-				CategoryStatus = categoryDto.CategoryStatus,
-			});
+			var value = _mapper.Map<Category>(categoryDto);
+			_categoryService.TAdd(value);
 			return Ok();
 		}
 		[HttpDelete("{id}")]
@@ -45,19 +42,15 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult CategoryUpdate(UpdateCategoryDto updateCategoryDto)
 		{
-			_categoryService.TUpdate(new Category()
-			{
-				CategoryID = updateCategoryDto.CategoryID,
-				CategoryName = updateCategoryDto.CategoryName,
-				CategoryStatus = updateCategoryDto.CategoryStatus
-			});
+			var value = _mapper.Map<Category>(updateCategoryDto);
+			_categoryService.TUpdate(value);
 			return Ok();
 		}
 		[HttpGet("{id}")]
 		public IActionResult CategoryGet(int id)
 		{
 			var value = _categoryService.TGetByID(id);
-			return Ok(value);
+			return Ok(_mapper.Map<GetCategoryDto>(value));
 		}
 
 		[HttpGet("CategoryCount")]

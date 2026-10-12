@@ -22,18 +22,13 @@ namespace SignalRApi.Controllers
 		[HttpGet]
 		public IActionResult AboutList()
 		{
-			var values = _mapper.Map<List<ResultAboutDto>>(_aboutService.TGetListAll());
-			return Ok(values);
+			return Ok(_mapper.Map<List<ResultAboutDto>>(_aboutService.TGetListAll()));
 		}
 		[HttpPost]
 		public IActionResult AboutCreate(CreateAboutDto createAboutDto)
 		{
-			_aboutService.TAdd(new About()
-			{
-				AboutTitle = createAboutDto.AboutTitle,
-				AboutDescription = createAboutDto.AboutDescription,
-				AboutImageUrl = createAboutDto.AboutImageUrl,
-			});
+			var value = _mapper.Map<About>(createAboutDto);
+			_aboutService.TAdd(value);
 			return Ok();
 		}
 		[HttpDelete("{id}")]
@@ -46,20 +41,15 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult AboutUpdate(UpdateAboutDto updateAboutDto)
 		{
-			_aboutService.TUpdate(new About()
-			{
-				AboutID = updateAboutDto.AboutID,
-				AboutTitle = updateAboutDto.AboutTitle,
-				AboutDescription = updateAboutDto.AboutDescription,
-				AboutImageUrl = updateAboutDto.AboutImageUrl,
-			});
+			var value = _mapper.Map<About>(updateAboutDto);
+			_aboutService.TUpdate(value);
 			return Ok();
 		}
 		[HttpGet("{id}")]
 		public IActionResult AboutGet(int id)
 		{
 			var value = _aboutService.TGetByID(id);
-			return Ok(value);
+			return Ok(_mapper.Map<GetAboutDto>(value));
 		}
 	}
 }

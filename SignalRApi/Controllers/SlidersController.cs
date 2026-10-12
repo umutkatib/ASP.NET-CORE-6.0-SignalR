@@ -22,21 +22,13 @@ namespace SignalRApi.Controllers
 		[HttpGet]
 		public IActionResult SliderList()
 		{
-			var values = _mapper.Map<List<ResultSliderDto>>(_sliderService.TGetListAll());
-			return Ok(values);
+			return Ok(_mapper.Map<List<ResultSliderDto>>(_sliderService.TGetListAll()));
 		}
 		[HttpPost]
 		public IActionResult SliderCreate(CreateSliderDto createSliderDto)
 		{
-			_sliderService.TAdd(new Slider()
-			{
-				SliderTitle1 = createSliderDto.SliderTitle1,
-				SliderDescription1 = createSliderDto.SliderDescription1,
-				SliderTitle2 = createSliderDto.SliderTitle2,
-				SliderDescription2 = createSliderDto.SliderDescription2,
-				SliderTitle3 = createSliderDto.SliderTitle3,
-				SliderDescription3 = createSliderDto.SliderDescription3,
-			});
+			var value = _mapper.Map<Slider>(createSliderDto);
+			_sliderService.TAdd(value);
 			return Ok();
 		}
 		[HttpDelete("{id}")]
@@ -49,23 +41,15 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult SliderUpdate(UpdateSliderDto updateSliderDto)
 		{
-			_sliderService.TUpdate(new Slider()
-			{
-				SliderID = updateSliderDto.SliderID,
-				SliderTitle1 = updateSliderDto.SliderTitle1,
-				SliderDescription1 = updateSliderDto.SliderDescription1,
-				SliderTitle2 = updateSliderDto.SliderTitle2,
-				SliderDescription2 = updateSliderDto.SliderDescription2,
-				SliderTitle3 = updateSliderDto.SliderTitle3,
-				SliderDescription3 = updateSliderDto.SliderDescription3,
-			});
+			var value = _mapper.Map<Slider>(updateSliderDto);
+			_sliderService.TUpdate(value);
 			return Ok();
 		}
 		[HttpGet("{id}")]
 		public IActionResult SliderGet(int id)
 		{
 			var value = _sliderService.TGetByID(id);
-			return Ok(value);
+			return Ok(_mapper.Map<GetSliderDto>(value));
 		}
 	}
 }

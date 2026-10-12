@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DtoLayer.NotificationDto;
 using SignalR.EntityLayer.Entities;
@@ -10,29 +11,27 @@ namespace SignalRApi.Controllers
 	public class NotificationsController : ControllerBase
 	{
 		private readonly INotificationService _notificationService;
+		private readonly IMapper _mapper;
 
-		public NotificationsController(INotificationService notificationService)
+		public NotificationsController(INotificationService notificationService, IMapper mapper)
 		{
 			_notificationService = notificationService;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
 		public IActionResult NotificationList()
 		{
-			return Ok(_notificationService.TGetListAll());
+			return Ok(_mapper.Map<List<ResultNotificationDto>>(_notificationService.TGetListAll()));
 		}
 
 		[HttpPost]
 		public IActionResult NotificationCreate(CreateNotificationDto createNotificationDto)
 		{
-			_notificationService.TAdd(new Notification()
-			{
-				NotificationType = createNotificationDto.NotificationType,
-				NotificationDescription = createNotificationDto.NotificationDescription,
-				NotificationIcon = createNotificationDto.NotificationIcon,
-				NotificationStatus = false,
-				NotificationDate = Convert.ToDateTime(DateTime.Now.ToShortDateString())
-			});
+			createNotificationDto.NotificationStatus = false;
+			createNotificationDto.NotificationDate = Convert.ToDateTime(DateTime.Now.ToShortDateString());
+			var value = _mapper.Map<Notification>(createNotificationDto);
+			_notificationService.TAdd(value);
 			return Ok();
 		}
 
@@ -47,22 +46,15 @@ namespace SignalRApi.Controllers
 		[HttpGet("{id}")]
 		public IActionResult NotificationGet(int id)
 		{
-			return Ok(_notificationService.TGetByID(id));
+			var value = _notificationService.TGetByID(id);
+			return Ok(_mapper.Map<GetNotificationDto>(value));
 		}
 
 		[HttpPut]
 		public IActionResult NotificationCreate(UpdateNotificationDto updateNotificationDto)
 		{
-			Notification notification = new Notification()
-			{
-				NotificationID = updateNotificationDto.NotificationID,
-				NotificationType = updateNotificationDto.NotificationType,
-				NotificationDescription = updateNotificationDto.NotificationDescription,
-				NotificationIcon = updateNotificationDto.NotificationIcon,
-				NotificationStatus = updateNotificationDto.NotificationStatus,
-				NotificationDate = updateNotificationDto.NotificationDate,
-			};
-			_notificationService.TUpdate(notification);
+			var value = _mapper.Map<Notification>(updateNotificationDto);
+			_notificationService.TUpdate(value);
 			return Ok();
 		}
 

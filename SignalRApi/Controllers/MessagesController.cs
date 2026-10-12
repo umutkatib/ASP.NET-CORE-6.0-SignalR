@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DtoLayer.MessageDto;
 using SignalR.EntityLayer.Entities;
@@ -10,30 +11,26 @@ namespace SignalRApi.Controllers
 	public class MessagesController : ControllerBase
 	{
 		private readonly IMessageService _messageService;
+		private readonly IMapper _mapper;
 
-		public MessagesController(IMessageService messageService)
+		public MessagesController(IMessageService messageService, IMapper mapper)
 		{
 			_messageService = messageService;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
 		public IActionResult MessageList()
 		{
-			return Ok(_messageService.TGetListAll());
+			return Ok(_mapper.Map<List<ResultMessageDto>>(_messageService.TGetListAll()));
 		}
 		[HttpPost]
 		public IActionResult MessageCreate(CreateMessageDto createMessageDto)
 		{
-			_messageService.TAdd(new Message()
-			{
-				MessageNameSurname = createMessageDto.MessageNameSurname,
-				MessageSubject = createMessageDto.MessageSubject,
-				MessageContent = createMessageDto.MessageContent,
-				MessageMail = createMessageDto.MessageMail,
-				MessagePhone = createMessageDto.MessagePhone,
-				MessageStatus = false,
-				MessageSendDate = DateTime.Now,
-			});
+			createMessageDto.MessageStatus = false;
+			createMessageDto.MessageSendDate = DateTime.Now;
+			var value = _mapper.Map<Message>(createMessageDto);
+			_messageService.TAdd(value);
 			return Ok();
 		}
 		[HttpDelete("{id}")]
@@ -45,23 +42,16 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult MessageUpdate(UpdateMessageDto updateMessageDto)
 		{
-			_messageService.TUpdate(new Message()
-			{
-				MessageID = updateMessageDto.MessageID,
-				MessageNameSurname = updateMessageDto.MessageNameSurname,
-				MessageSubject = updateMessageDto.MessageSubject,
-				MessageContent = updateMessageDto.MessageContent,
-				MessageMail = updateMessageDto.MessageMail,
-				MessagePhone = updateMessageDto.MessagePhone,
-				MessageStatus = false,
-				MessageSendDate = updateMessageDto.MessageSendDate,
-			});
+			updateMessageDto.MessageStatus = false;
+			var value = _mapper.Map<Message>(updateMessageDto);
+			_messageService.TUpdate(value);
 			return Ok();
 		}
 		[HttpGet("{id}")]
 		public IActionResult MessageGet(int id)
 		{
-			return Ok(_messageService.TGetByID(id));
+			var value = _messageService.TGetByID(id);
+			return Ok(_mapper.Map<GetMessageDto>(value));
 		}
 	}
 }

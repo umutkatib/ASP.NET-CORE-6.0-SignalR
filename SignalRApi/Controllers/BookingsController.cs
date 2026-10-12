@@ -22,21 +22,13 @@ namespace SignalRApi.Controllers
 		[HttpGet]
 		public IActionResult BookingList()
 		{
-			var values = _mapper.Map<List<ResultBookingDto>>(_bookingsService.TGetListAll());
-			return Ok(values);
+			return Ok(_mapper.Map<List<ResultBookingDto>>(_bookingsService.TGetListAll()));
 		}
 		[HttpPost]
 		public IActionResult BookingCreate(CreateBookingDto createBookingDto)
 		{
-			_bookingsService.TAdd(new Booking()
-			{
-				BookingName = createBookingDto.BookingName,
-				BookingMail = createBookingDto.BookingMail,
-				BookingDate = createBookingDto.BookingDate,
-				BookingPersonCount = createBookingDto.BookingPersonCount,
-				BookingPhone = createBookingDto.BookingPhone,
-				BookingDescription = createBookingDto.BookingDescription
-			});
+			var value = _mapper.Map<Booking>(createBookingDto);
+			_bookingsService.TAdd(value);
 			return Ok();
 		}
 		[HttpDelete("{id}")]
@@ -49,23 +41,15 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult BookingUpdate(UpdateBookingDto updateBookingDto)
 		{
-			_bookingsService.TUpdate(new Booking()
-			{
-				BookingID = updateBookingDto.BookingID,
-				BookingName = updateBookingDto.BookingName,
-				BookingMail = updateBookingDto.BookingMail,
-				BookingDate = updateBookingDto.BookingDate,
-				BookingPersonCount = updateBookingDto.BookingPersonCount,
-				BookingPhone = updateBookingDto.BookingPhone,
-				BookingDescription = updateBookingDto.BookingDescription
-			});
+			var value = _mapper.Map<Booking>(updateBookingDto);
+			_bookingsService.TUpdate(value);
 			return Ok();
 		}
 		[HttpGet("{id}")]
 		public IActionResult BookingGet(int id)
 		{
 			var value = _bookingsService.TGetByID(id);
-			return Ok(value);
+			return Ok(_mapper.Map<GetBookingDto>(value));
 		}
 
 		[HttpGet("BookingStatusApproved/{id}")]

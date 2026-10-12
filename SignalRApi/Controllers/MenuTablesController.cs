@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DtoLayer.MenuTableDto;
@@ -11,10 +12,12 @@ namespace SignalRApi.Controllers
 	public class MenuTablesController : ControllerBase
 	{
 		private readonly IMenuTableService _menuTableService;
+		private readonly IMapper _mapper;
 
-		public MenuTablesController(IMenuTableService menuTableService)
+		public MenuTablesController(IMenuTableService menuTableService, IMapper mapper)
 		{
 			_menuTableService = menuTableService;
+			_mapper = mapper;
 		}
 
 		[HttpGet("MenuTableCount")]
@@ -26,17 +29,15 @@ namespace SignalRApi.Controllers
 		[HttpGet]
 		public IActionResult MenuTableList()
 		{
-			return Ok(_menuTableService.TGetListAll());
+			return Ok(_mapper.Map<List<ResultMenuTableDto>>(_menuTableService.TGetListAll()));
 		}
 
 		[HttpPost]
 		public IActionResult MenuTableCreate(CreateMenuTableDto createMenuTableDto)
 		{
-			_menuTableService.TAdd(new MenuTable()
-			{
-				MenuTableName = createMenuTableDto.MenuTableName,
-				MenuTableStatus = false,
-			});
+			createMenuTableDto.MenuTableStatus = false;
+			var value = _mapper.Map<MenuTable>(createMenuTableDto);
+			_menuTableService.TAdd(value);
 			return Ok();
 		}
 
@@ -51,19 +52,16 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult MenuTableUpdate(UpdateMenuTableDto updateMenuTableDto)
 		{
-			_menuTableService.TUpdate(new MenuTable()
-			{
-				MenuTableID = updateMenuTableDto.MenuTableID,
-				MenuTableName = updateMenuTableDto.MenuTableName,
-				MenuTableStatus = updateMenuTableDto.MenuTableStatus,
-			});
+			var value = _mapper.Map<MenuTable>(updateMenuTableDto);
+			_menuTableService.TAdd(value);
 			return Ok();
 		}
 
 		[HttpGet("{id}")]
 		public IActionResult MenuTableGet(int id)
 		{
-			return Ok(_menuTableService.TGetByID(id));
+			var value = _menuTableService.TGetByID(id);
+			return Ok(_mapper.Map<GetMenuTableDto>(value));
 		}
 	}
 }
