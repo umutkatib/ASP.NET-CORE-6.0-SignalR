@@ -81,5 +81,10 @@ namespace SignalRApi.Controllers
 			return Ok();
 		}
 
+		[HttpGet("BookingCount")]
+		public IActionResult BookingCount()
+		{
+			return Ok(_bookingsService.TBookingCount());
+		}
 	}
 }
