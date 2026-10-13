@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.EntityLayer.Entities;
 using SignalRWebUI.Dtos.IdentityDtos;
 
 namespace SignalRWebUI.Controllers
 {
+	[AllowAnonymous]
 	public class RegisterController : Controller
 	{
 		private readonly UserManager<AppUser> _userManager;
@@ -36,6 +38,13 @@ namespace SignalRWebUI.Controllers
 			var result = await _userManager.CreateAsync(appuser, registerDto.Password);
 			if(result.Succeeded)
 			{
+				var roleResult = await _userManager.AddToRoleAsync(appuser, "User");
+				if (!roleResult.Succeeded)
+				{
+					await _userManager.DeleteAsync(appuser);
+					ModelState.AddModelError("", "Kayıt tamamlanamadı, lütfen tekrar deneyin.");
+					return View(registerDto);
+				}
 				return RedirectToAction("Index", "Login");
 			}			
 

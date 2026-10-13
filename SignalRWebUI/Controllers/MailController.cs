@@ -1,10 +1,12 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using SignalRWebUI.Dtos.MailDtos;
 
 namespace SignalRWebUI.Controllers
 {
+	[Authorize(Roles ="Admin")]
 	public class MailController : Controller
 	{
 		[HttpGet]

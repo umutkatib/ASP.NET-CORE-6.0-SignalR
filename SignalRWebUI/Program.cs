@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using SignalR.DataAccessLayer.Concrete;
 using SignalR.EntityLayer.Entities;
@@ -29,12 +30,33 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.LoginPath = "/Login/Index";
-	options.AccessDeniedPath = "/Login/Index";
+	options.AccessDeniedPath = "/Error/AccessDenied403Page";
 	options.ExpireTimeSpan = TimeSpan.FromHours(4);
 	options.SlidingExpiration = true;
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+	var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+	foreach (var role in new[] { "Admin", "User" })
+	{
+		if (!await roleManager.RoleExistsAsync(role))
+			await roleManager.CreateAsync(new AppRole { Name = role });
+	}
+
+	var admin = await userManager.FindByNameAsync("admin");
+	if (admin == null)
+	{
+		admin = new AppUser { Name = "Admin", Surname = "Admin", UserName = "admin", Email = "admin@site.com" };
+		var result = await userManager.CreateAsync(admin, "admin123*");
+		if (result.Succeeded)
+			await userManager.AddToRoleAsync(admin, "Admin");
+	}
+}
 
 app.UseStatusCodePages(async x =>
 {
