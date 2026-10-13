@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using SignalR.DataAccessLayer.Concrete;
@@ -37,6 +36,17 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 var app = builder.Build();
 
+app.UseStatusCodePages(async x =>
+{
+	if (x.HttpContext.Response.StatusCode == 404)
+		x.HttpContext.Response.Redirect("/Error/NotFound404Page");
+	else if(x.HttpContext.Response.StatusCode == 403)
+		x.HttpContext.Response.Redirect("/Error/AccessDenied403Page");
+	else if (x.HttpContext.Response.StatusCode == 500)
+		x.HttpContext.Response.Redirect("/Error/InternalServer500Page");
+
+});
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -55,6 +65,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Category}/{action=Index}/{id?}");
+	pattern: "{controller=Default}/{action=Index}");
 
 app.Run();
