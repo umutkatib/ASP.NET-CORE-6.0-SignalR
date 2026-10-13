@@ -48,14 +48,6 @@ using (var scope = app.Services.CreateScope())
 			await roleManager.CreateAsync(new AppRole { Name = role });
 	}
 
-	var admin = await userManager.FindByNameAsync("admin");
-	if (admin == null)
-	{
-		admin = new AppUser { Name = "Admin", Surname = "Admin", UserName = "admin", Email = "admin@site.com" };
-		var result = await userManager.CreateAsync(admin, "admin123*");
-		if (result.Succeeded)
-			await userManager.AddToRoleAsync(admin, "Admin");
-	}
 }
 
 app.UseStatusCodePages(async x =>
@@ -87,6 +79,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Default}/{action=Index}");
+	pattern: "{controller=Default}/{action=Index}/{id?}");
 
 app.Run();

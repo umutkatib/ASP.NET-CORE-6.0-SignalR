@@ -94,6 +94,12 @@ namespace SignalR.DataAccessLayer.EntityFramework
 			using var context = new SignalRContext();
 			return context.Products.Where(x => x.ProductStatus == true).ToList();
 		}
+
+		public List<Product> GetLast9Products()
+		{
+			using var context = new SignalRContext();
+			return context.Products.Where(x => x.ProductStatus == true).Take(9).ToList();
+		}
 	}
 }
 

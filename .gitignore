@@ -5,6 +5,7 @@
 
 /wwwroot
 /SignalRWebUI/wwwroot/
+/SignalRWebUI/Controllers/FoodRapidApiController.cs
 
 # User-specific files
 *.rsuser

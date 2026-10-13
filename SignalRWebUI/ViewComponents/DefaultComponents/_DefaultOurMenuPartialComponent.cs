@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.ProductDtos;
-using System.Threading.Tasks;
 
 namespace SignalRWebUI.ViewComponents.DefaultComponents
 {
@@ -17,7 +16,7 @@ namespace SignalRWebUI.ViewComponents.DefaultComponents
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
 			var client = _httpClientFactory.CreateClient();
-			var responseMessage = await client.GetAsync("https://localhost:7171/api/Products/GetListStatusByTrue");
+			var responseMessage = await client.GetAsync("https://localhost:7171/api/Products/GetLast9Products");
 			if(responseMessage.IsSuccessStatusCode)
 			{
 				var jsonData = await responseMessage.Content.ReadAsStringAsync();

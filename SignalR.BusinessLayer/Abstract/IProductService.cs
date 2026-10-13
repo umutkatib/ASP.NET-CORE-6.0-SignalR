@@ -15,6 +15,8 @@ namespace SignalR.BusinessLayer.Abstract
 		void TChangeProductStatusToFalse(int id);
 		void TChangeProductStatusToTrue(int id);
 		List<Product> TGetListStatusByTrue();
+		List<Product> TGetLast9Products();
+
 
 	}
 }
