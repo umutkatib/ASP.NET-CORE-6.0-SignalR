@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.CategoryDtos;
+using SignalRWebUI.Models;
 using System.Text;
+using SignalRWebUI.Extensions;
 
 namespace SignalRWebUI.Controllers
 {
@@ -43,7 +45,9 @@ namespace SignalRWebUI.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			return View();
+			
+			await ModelState.AddApiErrorsAsync(responseMessage);
+			return View(createCategoryDto);
 		}
 		public async Task<IActionResult> CategoryDelete(int id)
 		{
@@ -79,7 +83,9 @@ namespace SignalRWebUI.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			return View();
+
+			await ModelState.AddApiErrorsAsync(responseMessage);
+			return View(updateCategoryDto);
 		}
 	}
 }

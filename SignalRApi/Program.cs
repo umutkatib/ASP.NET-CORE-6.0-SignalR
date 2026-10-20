@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.BusinessLayer.Concrete;
 using SignalR.BusinessLayer.ValidationRules.BookingValidations;
+using SignalR.BusinessLayer.ValidationRules.CategoryValidations;
 using SignalR.BusinessLayer.ValidationRules.ProductValidations;
 using SignalR.DataAccessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
@@ -86,6 +87,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateBookingValidation>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookingValidation>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidation>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductValidation>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryValidation>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidation>();
 
 builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {

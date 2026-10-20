@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DtoLayer.BookingDto;
@@ -13,11 +14,15 @@ namespace SignalRApi.Controllers
 	{
 		private readonly ICategoryService _categoryService;
 		private readonly IMapper _mapper;
+		private readonly IValidator<CreateCategoryDto> _validatorForCreate;
+		private readonly IValidator<UpdateCategoryDto> _validatorForUpdate;
 
-		public CategoriesController(ICategoryService categoryService, IMapper mapper)
+		public CategoriesController(ICategoryService categoryService, IMapper mapper, IValidator<CreateCategoryDto> validatorForCreate, IValidator<UpdateCategoryDto> validatorForUpdate)
 		{
 			_categoryService = categoryService;
 			_mapper = mapper;
+			_validatorForCreate = validatorForCreate;
+			_validatorForUpdate = validatorForUpdate;
 		}
 
 		[HttpGet]
@@ -26,9 +31,14 @@ namespace SignalRApi.Controllers
 			return Ok(_mapper.Map<List<ResultCategoryDto>>(_categoryService.TGetListAll()));
 		}
 		[HttpPost]
-		public IActionResult CategoryCreate(CreateCategoryDto categoryDto)
+		public IActionResult CategoryCreate(CreateCategoryDto createCategoryDto)
 		{
-			var value = _mapper.Map<Category>(categoryDto);
+			var validationResult = _validatorForCreate.Validate(createCategoryDto);
+			if (!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.Errors);
+			}
+			var value = _mapper.Map<Category>(createCategoryDto);
 			_categoryService.TAdd(value);
 			return Ok();
 		}
@@ -42,6 +52,11 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult CategoryUpdate(UpdateCategoryDto updateCategoryDto)
 		{
+			var validationResult = _validatorForUpdate.Validate(updateCategoryDto);
+			if (!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.Errors);
+			}
 			var value = _mapper.Map<Category>(updateCategoryDto);
 			_categoryService.TUpdate(value);
 			return Ok();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.CategoryDtos;
 using SignalRWebUI.Dtos.ProductDtos;
+using SignalRWebUI.Extensions;
 using SignalRWebUI.Models;
 using System.Text;
 
@@ -67,17 +68,8 @@ namespace SignalRWebUI.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
-			if (errorResponse?.Errors != null)
-			{
-				foreach (var error in errorResponse.Errors)
-				{
-					foreach (var errorMessage in error.Value)
-					{
-						ModelState.AddModelError(error.Key, errorMessage);
-					}
-				}
-			}
+
+			await ModelState.AddApiErrorsAsync(responseMessage);
 			await LoadCategoriesAsync();
 			return View(createProductDto);
 		}
@@ -119,17 +111,8 @@ namespace SignalRWebUI.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
-			if (errorResponse?.Errors != null)
-			{
-				foreach (var error in errorResponse.Errors)
-				{
-					foreach (var errorMessage in error.Value)
-					{
-						ModelState.AddModelError(error.Key, errorMessage);
-					}
-				}
-			}
+
+			await ModelState.AddApiErrorsAsync(responseMessage);
 			return View(updateProductDto);
 		}
 
