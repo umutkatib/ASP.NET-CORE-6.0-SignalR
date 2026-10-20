@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.CategoryDtos;
 using SignalRWebUI.Dtos.ProductDtos;
+using SignalRWebUI.Models;
 using System.Text;
 
 namespace SignalRWebUI.Controllers
@@ -29,25 +30,35 @@ namespace SignalRWebUI.Controllers
 			return View();
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> ProductCreate()
+		private async Task LoadCategoriesAsync()
 		{
 			var client = _httpClientFactory.CreateClient();
 			var responseMessage = await client.GetAsync("https://localhost:7171/api/Categories");
 			var jsonData = await responseMessage.Content.ReadAsStringAsync();
 			var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
-			List<SelectListItem> categoryIDs = (from x in values
-												select new SelectListItem
-												{
-													Text = x.CategoryName,
-													Value = x.CategoryID.ToString()
-												}).ToList();
-			ViewBag.v = categoryIDs;
+
+			ViewBag.v = (from x in values
+						 select new SelectListItem
+						 {
+							 Text = x.CategoryName,
+							 Value = x.CategoryID.ToString()
+						 }).ToList();
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> ProductCreate()
+		{
+			await LoadCategoriesAsync();
 			return View();
 		}
 		[HttpPost]
 		public async Task<IActionResult> ProductCreate(CreateProductDto createProductDto)
 		{
+			if(!ModelState.IsValid)
+			{
+				await LoadCategoriesAsync();
+				return View(createProductDto);
+			}
 			var client = _httpClientFactory.CreateClient();
 			var jsonData = JsonConvert.SerializeObject(createProductDto);
 			StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -56,7 +67,19 @@ namespace SignalRWebUI.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			return View();
+			var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+			if (errorResponse?.Errors != null)
+			{
+				foreach (var error in errorResponse.Errors)
+				{
+					foreach (var errorMessage in error.Value)
+					{
+						ModelState.AddModelError(error.Key, errorMessage);
+					}
+				}
+			}
+			await LoadCategoriesAsync();
+			return View(createProductDto);
 		}
 
 		public async Task<IActionResult> ProductDelete(int id)
@@ -73,17 +96,7 @@ namespace SignalRWebUI.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ProductUpdate(int id)
 		{
-			var client2 = _httpClientFactory.CreateClient();
-			var responseMessage2 = await client2.GetAsync("https://localhost:7171/api/Categories");
-			var jsonData2 = await responseMessage2.Content.ReadAsStringAsync();
-			var values2 = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData2);
-			List<SelectListItem> categoryIDs2 = (from x in values2
-												select new SelectListItem
-												{
-													Text = x.CategoryName,
-													Value = x.CategoryID.ToString()
-												}).ToList();
-			ViewBag.v = categoryIDs2;
+			await LoadCategoriesAsync();
 
 			var client = _httpClientFactory.CreateClient();
 			var responseMessage = await client.GetAsync($"https://localhost:7171/api/Products/{id}");
@@ -106,7 +119,18 @@ namespace SignalRWebUI.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-			return View();
+			var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+			if (errorResponse?.Errors != null)
+			{
+				foreach (var error in errorResponse.Errors)
+				{
+					foreach (var errorMessage in error.Value)
+					{
+						ModelState.AddModelError(error.Key, errorMessage);
+					}
+				}
+			}
+			return View(updateProductDto);
 		}
 
 		public async Task<IActionResult> ChangeProductStatusToFalse(int id)

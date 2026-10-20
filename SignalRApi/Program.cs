@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.BusinessLayer.Concrete;
 using SignalR.BusinessLayer.ValidationRules.BookingValidations;
+using SignalR.BusinessLayer.ValidationRules.ProductValidations;
 using SignalR.DataAccessLayer.Abstract;
 using SignalR.DataAccessLayer.Concrete;
 using SignalR.DataAccessLayer.EntityFramework;
@@ -80,8 +81,11 @@ builder.Services.AddFluentValidationAutoValidation(config =>
 {
     config.DisableDataAnnotationsValidation = true;
 });
+
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBookingValidation>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookingValidation>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidation>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateProductValidation>();
 
 builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {

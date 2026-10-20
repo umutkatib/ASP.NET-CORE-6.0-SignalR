@@ -29,7 +29,6 @@
                         </div>
 
                         <div class="card-body">
-                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                             <div class="form-group">
                                 <label asp-for="ProductName" class="font-weight-bold">Ürün Adı</label>
@@ -37,7 +36,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="la la-tag"></i></span>
                                     </div>
-                                    <input asp-for="ProductName" class="form-control" maxlength="150"
+                                    <input asp-for="ProductName" class="form-control"
                                            placeholder="Ürün Adı Giriniz" autofocus />
                                 </div>
                                 <span asp-validation-for="ProductName" class="text-danger small"></span>
@@ -49,7 +48,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="la la-turkish-lira"></i></span>
                                     </div>
-                                    <input asp-for="ProductPrice" type="number" step="0.01" min="0" class="form-control"
+                                    <input asp-for="ProductPrice" type="number" class="form-control"
                                            placeholder="0,00" />
                                 </div>
                                 <span asp-validation-for="ProductPrice" class="text-danger small"></span>

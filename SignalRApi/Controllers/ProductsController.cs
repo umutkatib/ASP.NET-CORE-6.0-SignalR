@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
+using SignalR.BusinessLayer.ValidationRules.ProductValidations;
 using SignalR.DtoLayer.ProductDto;
 using SignalR.EntityLayer.Entities;
 
@@ -12,11 +14,15 @@ namespace SignalRApi.Controllers
 	{
 		private readonly IProductService _productService;
 		private readonly IMapper _mapper;
+		private readonly IValidator<CreateProductDto> _validatorForCreate;
+		private readonly IValidator<UpdateProductDto> _validatorForUpdate;
 
-		public ProductsController(IProductService productService, IMapper mapper)
+		public ProductsController(IProductService productService, IMapper mapper, IValidator<CreateProductDto> validatorForCreate, IValidator<UpdateProductDto> validatorForUpdate)
 		{
 			_productService = productService;
 			_mapper = mapper;
+			_validatorForCreate = validatorForCreate;
+			_validatorForUpdate = validatorForUpdate;
 		}
 
 		[HttpGet]
@@ -56,6 +62,11 @@ namespace SignalRApi.Controllers
 		[HttpPost]
 		public IActionResult ProductCreate(CreateProductDto createProductDto)
 		{
+			var validationResult = _validatorForCreate.Validate(createProductDto);
+			if (!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.Errors);
+			}
 			var value = _mapper.Map<Product>(createProductDto);
 			_productService.TAdd(value);
 			return Ok();
@@ -70,6 +81,11 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult ProductUpdate(UpdateProductDto updateProductDto)
 		{
+			var validationResult = _validatorForUpdate.Validate(updateProductDto);
+			if (!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.Errors);
+			}
 			var value = _mapper.Map<Product>(updateProductDto);
 			_productService.TUpdate(value);
 			return Ok();
