@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SignalR.BusinessLayer.Abstract;
 using SignalR.DtoLayer.BookingDto;
@@ -12,11 +13,15 @@ namespace SignalRApi.Controllers
 	{
 		private readonly IBookingService _bookingsService;
 		private readonly IMapper _mapper;
+		private readonly IValidator<CreateBookingDto> _validatorForCreate;
+		private readonly IValidator<UpdateBookingDto> _validatorForUpdate;
 
-		public BookingsController(IBookingService bookingsService, IMapper mapper)
+		public BookingsController(IBookingService bookingsService, IMapper mapper, IValidator<CreateBookingDto> validatorForCreate, IValidator<UpdateBookingDto> validatorForUpdate)
 		{
 			_bookingsService = bookingsService;
 			_mapper = mapper;
+			_validatorForCreate = validatorForCreate;
+			_validatorForUpdate = validatorForUpdate;
 		}
 
 		[HttpGet]
@@ -27,6 +32,12 @@ namespace SignalRApi.Controllers
 		[HttpPost]
 		public IActionResult BookingCreate(CreateBookingDto createBookingDto)
 		{
+			var validationResult = _validatorForCreate.Validate(createBookingDto);	
+			if(!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.Errors);
+			}
+
 			var value = _mapper.Map<Booking>(createBookingDto);
 			_bookingsService.TAdd(value);
 			return Ok();
@@ -41,6 +52,11 @@ namespace SignalRApi.Controllers
 		[HttpPut]
 		public IActionResult BookingUpdate(UpdateBookingDto updateBookingDto)
 		{
+			var validationResult = _validatorForUpdate.Validate(updateBookingDto);
+			if(!validationResult.IsValid)
+			{
+				return BadRequest(validationResult.Errors);
+			}
 			var value = _mapper.Map<Booking>(updateBookingDto);
 			_bookingsService.TUpdate(value);
 			return Ok();

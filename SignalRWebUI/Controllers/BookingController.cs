@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SignalRWebUI.Dtos.BookingDtos;
+using SignalRWebUI.Models;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,8 +49,20 @@ namespace SignalRWebUI.Controllers
 				return RedirectToAction("Index");
 			}
 
+			var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+			if(errorResponse?.Errors != null)
+			{
+				foreach(var error in errorResponse.Errors)
+				{
+					foreach(var errorMessage in error.Value)
+					{
+						ModelState.AddModelError(error.Key, errorMessage);
+					}
+				}
+			}
 			TempData["ErrorMessage"] = "Rezervasyon Kaydi Eklenemedi!";
-			return View();
+
+			return View(createBookingDto);
 		}
 
 		public async Task<IActionResult> BookingDelete(int id)
@@ -91,9 +104,20 @@ namespace SignalRWebUI.Controllers
 				return RedirectToAction("Index");
 			}
 
+			var errorResponse = await responseMessage.Content.ReadFromJsonAsync<ApiValidationErrorResponse>();
+			if (errorResponse?.Errors != null)
+			{
+				foreach (var error in errorResponse.Errors)
+				{
+					foreach (var errorMessage in error.Value)
+					{
+						ModelState.AddModelError(error.Key, errorMessage);
+					}
+				}
+			}
 			TempData["ErrorMessage"] = "Rezervasyon Kaydi Güncellenemedi!";
 
-			return View();
+			return View(updateBookingDto);
 		}
 
 		public async Task<IActionResult> BookingStatusApproved(int id)

@@ -12,6 +12,7 @@ var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticat
 builder.Services.AddControllersWithViews(opt =>
 {
 	opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
+	opt.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 });
 
 builder.Services.AddHttpClient();
@@ -34,6 +35,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 	options.ExpireTimeSpan = TimeSpan.FromHours(4);
 	options.SlidingExpiration = true;
 });
+
 
 var app = builder.Build();
 
