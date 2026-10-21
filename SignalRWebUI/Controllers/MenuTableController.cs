@@ -88,7 +88,6 @@ namespace SignalRWebUI.Controllers
 
 		//signalr
 
-		[HttpGet("TableListByStatus")]
 		public async Task<IActionResult> TableListByStatus()
 		{
 			var client = _httpClientFactory.CreateClient();
@@ -100,6 +99,19 @@ namespace SignalRWebUI.Controllers
 				return View(values);
 			}
 			return View();
+		}
+
+		public async Task<IActionResult> ChangeMenuTableStatusToFalse(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/MenuTables/ChangeMenuTableStatusToFalse/{id}");
+			return RedirectToAction("Index");
+		}
+		public async Task<IActionResult> ChangeMenuTableStatusToTrue(int id)
+		{
+			var client = _httpClientFactory.CreateClient();
+			await client.GetAsync($"https://localhost:7171/api/MenuTables/ChangeMenuTableStatusToTrue/{id}");
+			return RedirectToAction("Index");
 		}
 	}
 }

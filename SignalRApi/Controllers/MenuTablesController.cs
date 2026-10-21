@@ -35,7 +35,6 @@ namespace SignalRApi.Controllers
 		[HttpPost]
 		public IActionResult MenuTableCreate(CreateMenuTableDto createMenuTableDto)
 		{
-			createMenuTableDto.MenuTableStatus = false;
 			var value = _mapper.Map<MenuTable>(createMenuTableDto);
 			_menuTableService.TAdd(value);
 			return Ok();
@@ -62,6 +61,19 @@ namespace SignalRApi.Controllers
 		{
 			var value = _menuTableService.TGetByID(id);
 			return Ok(_mapper.Map<GetMenuTableDto>(value));
+		}
+
+		[HttpGet("ChangeMenuTableStatusToFalse/{id}")]
+		public IActionResult ChangeMenuTableStatusToFalse(int id)
+		{
+			_menuTableService.TChangeMenuTableStatusToFalse(id);
+			return Ok();
+		}
+		[HttpGet("ChangeMenuTableStatusToTrue/{id}")]
+		public IActionResult ChangeMenuTableStatusToTrue(int id)
+		{
+			_menuTableService.TChangeMenuTableStatusToTrue(id);
+			return Ok();
 		}
 	}
 }

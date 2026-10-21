@@ -1,6 +1,5 @@
 ﻿using SignalR.BusinessLayer.Abstract;
 using SignalR.DataAccessLayer.Abstract;
-using SignalR.DataAccessLayer.EntityFramework;
 using SignalR.EntityLayer.Entities;
 
 namespace SignalR.BusinessLayer.Concrete
@@ -17,6 +16,16 @@ namespace SignalR.BusinessLayer.Concrete
 		public void TAdd(MenuTable entity)
 		{
 			_menuTableDal.Add(entity);
+		}
+
+		public void TChangeMenuTableStatusToFalse(int id)
+		{
+			_menuTableDal.ChangeMenuTableStatusToFalse(id);
+		}
+
+		public void TChangeMenuTableStatusToTrue(int id)
+		{
+			_menuTableDal.ChangeMenuTableStatusToTrue(id);
 		}
 
 		public void TDelete(MenuTable entity)
